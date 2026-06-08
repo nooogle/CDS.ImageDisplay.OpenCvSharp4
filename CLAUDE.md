@@ -69,6 +69,8 @@ git tag V1.2.0
 git push origin V1.2.0
 ```
 
-Pushing a `V*` tag triggers the `.github/workflows/publish.yml` GitHub Actions workflow, which builds, packs, and publishes `CDS.ImageDisplay.OpenCvSharp4` to NuGet.org via OIDC Trusted Publishing (no API key secret required).
+Pushing a `V*` tag triggers `.github/workflows/publish.yml`, which builds, packs, creates a GitHub Release, and pushes to NuGet.org.
 
-Before the first release, update the `OWNER` placeholder in [Directory.Build.props](Directory.Build.props) with the actual GitHub username/org, and ensure the NuGet Trusted Publisher is configured (see repository README).
+Before the first release:
+1. Replace the `OWNER` placeholder in [Directory.Build.props](Directory.Build.props) with the actual GitHub username/org.
+2. Configure a Trusted Publisher on nuget.org for this repo/workflow (see walk-through in repository README or initial setup notes). No API key secret is needed.

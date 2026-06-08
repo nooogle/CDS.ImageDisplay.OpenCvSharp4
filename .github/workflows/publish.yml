@@ -1,40 +1,66 @@
-name: Publish NuGet Package
+name: Publish to NuGet
 
 on:
   push:
     tags:
       - 'V*'
 
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  LIBRARY_PROJECT: CDS.ImageDisplay.OpenCvSharp4/CDS.ImageDisplay.OpenCvSharp4.csproj
+  PACKAGE_ID: CDS.ImageDisplay.OpenCvSharp4
+
 jobs:
   publish:
+    name: Build & Release
     runs-on: windows-latest
-
-    # Required for NuGet Trusted Publishing (OIDC token)
     permissions:
       id-token: write
-      contents: read
+      contents: write
 
-    # Must match the environment name configured in your NuGet Trusted Publisher
     environment: nuget
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # full history required by MinVer
+          fetch-depth: 0   # MinVer needs full history to compute version from tags
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.LIBRARY_PROJECT }}
 
       - name: Build
-        run: dotnet build CDS.ImageDisplay.OpenCvSharp4/CDS.ImageDisplay.OpenCvSharp4.csproj --configuration Release
+        run: dotnet build ${{ env.LIBRARY_PROJECT }} --configuration Release --no-restore
 
       - name: Pack
-        run: dotnet pack CDS.ImageDisplay.OpenCvSharp4/CDS.ImageDisplay.OpenCvSharp4.csproj --configuration Release --no-build --output ./nupkgs
+        run: dotnet pack ${{ env.LIBRARY_PROJECT }} --configuration Release --no-build --output ./artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ./artifacts/*.nupkg
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to NuGet.org
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
-          dotnet nuget push "./nupkgs/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key oidc --skip-duplicate
-          dotnet nuget push "./nupkgs/*.snupkg" --source https://api.nuget.org/v3/index.json --api-key oidc --skip-duplicate
+          $pkg = (Get-ChildItem -Path ./artifacts -Filter "${{ env.PACKAGE_ID }}.*.nupkg").FullName
+          dotnet nuget push $pkg --source https://api.nuget.org/v3/index.json --api-key oidc --skip-duplicate
+
+      - name: Push symbols to NuGet.org
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          $pkg = (Get-ChildItem -Path ./artifacts -Filter "${{ env.PACKAGE_ID }}.*.snupkg").FullName
+          if ($pkg) {
+            dotnet nuget push $pkg --source https://api.nuget.org/v3/index.json --api-key oidc --skip-duplicate
+          }
