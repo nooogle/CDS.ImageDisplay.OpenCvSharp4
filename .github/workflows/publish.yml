@@ -59,14 +59,17 @@ jobs:
             -Uri "$env:ACTIONS_ID_TOKEN_REQUEST_URL&audience=api.nuget.org" `
             -Headers @{ Authorization = "Bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN" }
           ).value
-          $apiKey = (Invoke-RestMethod `
+          $response = Invoke-RestMethod `
             -Method POST `
-            -Uri 'https://api.nuget.org/v1/authorize-oidc' `
+            -Uri 'https://www.nuget.org/api/v2/token' `
+            -Headers @{
+              Authorization = "Bearer $oidcToken"
+              'User-Agent'  = 'GitHubActions/1.0 (CDS.ImageDisplay.OpenCvSharp4)'
+            } `
             -ContentType 'application/json' `
-            -Body (ConvertTo-Json @{ token = $oidcToken })
-          ).token
-          Write-Host "::add-mask::$apiKey"
-          "NUGET_TOKEN=$apiKey" | Out-File -FilePath $env:GITHUB_ENV -Append
+            -Body (ConvertTo-Json @{ username = '${{ vars.NUGET_USERNAME }}'; tokenType = 'ApiKey' })
+          Write-Host "::add-mask::$($response.apiKey)"
+          "NUGET_TOKEN=$($response.apiKey)" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Push to NuGet.org
         if: startsWith(github.ref, 'refs/tags/')
