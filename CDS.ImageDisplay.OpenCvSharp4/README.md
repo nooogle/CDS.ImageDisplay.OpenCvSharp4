@@ -53,4 +53,4 @@ bitmapDisplayPanel1.SetImage(processed);
 
 ## License
 
-MIT — see [LICENSE.txt](https://github.com/OWNER/CDS.ImageDisplay.OpenCvSharp4/blob/master/LICENSE.txt)
+MIT — see [LICENSE.txt](https://github.com/nooogle/CDS.ImageDisplay.OpenCvSharp4/blob/master/LICENSE.txt)

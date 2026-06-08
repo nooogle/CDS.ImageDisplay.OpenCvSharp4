@@ -8,9 +8,9 @@
     <Authors>Carpe Diem Systems</Authors>
     <Company>Carpe Diem Systems</Company>
     <Copyright>Copyright © Carpe Diem Systems 2026</Copyright>
-    <RepositoryUrl>https://github.com/OWNER/CDS.ImageDisplay.OpenCvSharp4</RepositoryUrl>
+    <RepositoryUrl>https://github.com/nooogle/CDS.ImageDisplay.OpenCvSharp4</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>https://github.com/OWNER/CDS.ImageDisplay.OpenCvSharp4</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/nooogle/CDS.ImageDisplay.OpenCvSharp4</PackageProjectUrl>
 
     <!-- Reproducible builds -->
     <Deterministic>true</Deterministic>
