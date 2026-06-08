@@ -1,0 +1,40 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    tags:
+      - 'V*'
+
+jobs:
+  publish:
+    runs-on: windows-latest
+
+    # Required for NuGet Trusted Publishing (OIDC token)
+    permissions:
+      id-token: write
+      contents: read
+
+    # Must match the environment name configured in your NuGet Trusted Publisher
+    environment: nuget
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history required by MinVer
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Build
+        run: dotnet build CDS.ImageDisplay.OpenCvSharp4/CDS.ImageDisplay.OpenCvSharp4.csproj --configuration Release
+
+      - name: Pack
+        run: dotnet pack CDS.ImageDisplay.OpenCvSharp4/CDS.ImageDisplay.OpenCvSharp4.csproj --configuration Release --no-build --output ./nupkgs
+
+      - name: Push to NuGet.org
+        run: |
+          dotnet nuget push "./nupkgs/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key oidc --skip-duplicate
+          dotnet nuget push "./nupkgs/*.snupkg" --source https://api.nuget.org/v3/index.json --api-key oidc --skip-duplicate

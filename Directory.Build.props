@@ -1,0 +1,27 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- MinVer: git tags must use uppercase V prefix, e.g. V1.0.0 -->
+    <MinVerTagPrefix>V</MinVerTagPrefix>
+
+    <!-- Shared package metadata -->
+    <Authors>Carpe Diem Systems</Authors>
+    <Company>Carpe Diem Systems</Company>
+    <Copyright>Copyright © Carpe Diem Systems 2026</Copyright>
+    <RepositoryUrl>https://github.com/OWNER/CDS.ImageDisplay.OpenCvSharp4</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/OWNER/CDS.ImageDisplay.OpenCvSharp4</PackageProjectUrl>
+
+    <!-- Reproducible builds -->
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MinVer" Version="5.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

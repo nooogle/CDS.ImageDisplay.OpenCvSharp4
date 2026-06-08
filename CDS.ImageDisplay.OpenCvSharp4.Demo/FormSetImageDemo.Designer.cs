@@ -1,6 +1,6 @@
 namespace CDS.ImageDisplay.OpenCvSharp4.Demo
 {
-    partial class FormOpenCVSharp
+    partial class FormSetImageDemo
     {
         /// <summary>
         /// Required designer variable.

@@ -1,16 +1,37 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0-windows</TargetFramework>
-	  <UseWindowsForms>true</UseWindowsForms>
-	  <ImplicitUsings>enable</ImplicitUsings>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <Nullable>enable</Nullable>
-	  <LangVersion>latest</LangVersion>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>CDS.ImageDisplay.OpenCvSharp4</PackageId>
+    <Title>CDS Image Display for OpenCvSharp4</Title>
+    <Description>Windows Forms integration for displaying OpenCvSharp4 Mat images on a BitmapDisplayPanel. Handles stride alignment and pixel format conversion (CV_8UC1, CV_8UC3, CV_8UC4) transparently. Provides Mat.Show() for quick modal display and BitmapDisplayPanel.SetImage(Mat) for in-form display.</Description>
+    <PackageTags>opencv;opencvsharp;opencvsharp4;winforms;image;display;bitmap;mat</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CDS.ImageDisplay.WinForms" Version="3.2.6" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="OpenCvSharp4" Version="4.13.0.20260602" />
   </ItemGroup>
 
@@ -27,6 +48,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="MinVer" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

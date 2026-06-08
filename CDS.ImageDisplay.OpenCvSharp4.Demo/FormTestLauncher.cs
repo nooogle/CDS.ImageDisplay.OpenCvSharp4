@@ -23,10 +23,16 @@ internal sealed partial class FormTestLauncher : Form
         MenuGroup demos = menuTree.AddGroup("Demos");
 
         demos.AddItem(
-            name: "Test",
+            name: "SetImage(Mat)",
             tooltip: "Demonstration of setting a Mat directly on a BitmapDisplayPanel",
             parent: this,
-            createForm: () => new FormOpenCVSharp());
+            createForm: () => new FormSetImageDemo());
+
+        demos.AddItem(
+            name: "Show(Mat)",
+            tooltip: "Demonstration of the Mat.Show extension across supported formats and stride/layout paths",
+            parent: this,
+            createForm: () => new FormShowMatDemo());
 
         menuTree.ExpandAllGroups();
     }

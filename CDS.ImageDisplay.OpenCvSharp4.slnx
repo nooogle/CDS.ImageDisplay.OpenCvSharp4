@@ -1,4 +1,10 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="CLAUDE.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="LICENSE.txt" />
+    <File Path="README.md" />
+  </Folder>
   <Project Path="CDS.ImageDisplay.OpenCvSharp4.Demo/CDS.ImageDisplay.OpenCvSharp4.Demo.csproj" />
   <Project Path="CDS.ImageDisplay.OpenCvSharp4/CDS.ImageDisplay.OpenCvSharp4.csproj" Id="e91e324b-7dbc-4c9b-89eb-6b9aef98b9a7" />
 </Solution>

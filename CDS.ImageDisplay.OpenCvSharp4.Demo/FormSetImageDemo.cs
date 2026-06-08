@@ -5,13 +5,13 @@ using System.Windows.Forms;
 
 namespace CDS.ImageDisplay.OpenCvSharp4.Demo;
 
-internal sealed partial class FormOpenCVSharp : Form
+internal sealed partial class FormSetImageDemo : Form
 {
     private bool _changingPaintRectProgramatically;
     private OpenCvSharp.Mat? _cvImageGrey;
     private OpenCvSharp.Mat? _cvImageBlurred;
 
-    public FormOpenCVSharp()
+    public FormSetImageDemo()
     {
         InitializeComponent();
     }
