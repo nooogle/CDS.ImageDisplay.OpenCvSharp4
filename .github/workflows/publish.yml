@@ -56,7 +56,7 @@ jobs:
         id: nuget-auth
         run: |
           $oidcToken = (Invoke-RestMethod `
-            -Uri "$env:ACTIONS_ID_TOKEN_REQUEST_URL&audience=api.nuget.org" `
+            -Uri "$env:ACTIONS_ID_TOKEN_REQUEST_URL&audience=nuget.org" `
             -Headers @{ Authorization = "Bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN" }
           ).value
           $response = Invoke-RestMethod `
