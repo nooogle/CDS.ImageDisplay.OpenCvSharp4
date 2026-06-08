@@ -67,7 +67,7 @@ jobs:
               'User-Agent'  = 'GitHubActions/1.0 (CDS.ImageDisplay.OpenCvSharp4)'
             } `
             -ContentType 'application/json' `
-            -Body (ConvertTo-Json @{ username = '${{ vars.NUGET_USERNAME }}'; tokenType = 'ApiKey' })
+            -Body (ConvertTo-Json @{ username = 'JonShadforth'; tokenType = 'ApiKey' })
           Write-Host "::add-mask::$($response.apiKey)"
           "NUGET_TOKEN=$($response.apiKey)" | Out-File -FilePath $env:GITHUB_ENV -Append
 
