@@ -51,16 +51,33 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Authenticate with NuGet (Trusted Publishing)
+        if: startsWith(github.ref, 'refs/tags/')
+        id: nuget-auth
+        run: |
+          $oidcToken = (Invoke-RestMethod `
+            -Uri "$env:ACTIONS_ID_TOKEN_REQUEST_URL&audience=api.nuget.org" `
+            -Headers @{ Authorization = "Bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN" }
+          ).value
+          $apiKey = (Invoke-RestMethod `
+            -Method POST `
+            -Uri 'https://api.nuget.org/v1/authorize-oidc' `
+            -ContentType 'application/json' `
+            -Body (ConvertTo-Json @{ token = $oidcToken })
+          ).token
+          Write-Host "::add-mask::$apiKey"
+          "NUGET_TOKEN=$apiKey" | Out-File -FilePath $env:GITHUB_ENV -Append
+
       - name: Push to NuGet.org
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           $pkg = (Get-ChildItem -Path ./artifacts -Filter "${{ env.PACKAGE_ID }}.*.nupkg").FullName
-          dotnet nuget push $pkg --source https://api.nuget.org/v3/index.json --api-key oidc --skip-duplicate
+          dotnet nuget push $pkg --source https://api.nuget.org/v3/index.json --api-key $env:NUGET_TOKEN --skip-duplicate
 
       - name: Push symbols to NuGet.org
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           $pkg = (Get-ChildItem -Path ./artifacts -Filter "${{ env.PACKAGE_ID }}.*.snupkg").FullName
           if ($pkg) {
-            dotnet nuget push $pkg --source https://api.nuget.org/v3/index.json --api-key oidc --skip-duplicate
+            dotnet nuget push $pkg --source https://api.nuget.org/v3/index.json --api-key $env:NUGET_TOKEN --skip-duplicate
           }
