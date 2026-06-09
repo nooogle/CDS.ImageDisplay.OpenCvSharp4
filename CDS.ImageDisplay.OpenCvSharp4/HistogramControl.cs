@@ -1,7 +1,6 @@
 using OpenCvSharp;
 using ScottPlot;
 using DrawingColor = System.Drawing.Color;
-using WinFormsLabel = System.Windows.Forms.Label;
 
 namespace CDS.ImageDisplay.OpenCvSharp4;
 
@@ -14,19 +13,8 @@ namespace CDS.ImageDisplay.OpenCvSharp4;
 /// <c>CV_8UC4</c> (BGRA). Passing an unsupported type leaves the existing display
 /// unchanged. Passing <see langword="null"/> clears the display.
 /// </remarks>
-public sealed class HistogramControl : UserControl
+public sealed partial class HistogramControl : UserControl
 {
-    private readonly ScottPlot.WinForms.FormsPlot _formsPlot;
-    private readonly FlowLayoutPanel _optionsPanel;
-    private readonly CheckBox _chkBlue;
-    private readonly CheckBox _chkGreen;
-    private readonly CheckBox _chkRed;
-    private readonly CheckBox _chkAlpha;
-    private readonly WinFormsLabel _channelSeparator;
-    private readonly CheckBox _chkExcludeBlack;
-    private readonly CheckBox _chkExcludeWhite;
-    private readonly CheckBox _chkLogScale;
-
     // _histData[channelIndex][binIndex 0..255], or null when no image is loaded.
     private int[][]? _histData;
     private int _channels;
@@ -34,46 +22,10 @@ public sealed class HistogramControl : UserControl
     /// <summary>Initialises a new <see cref="HistogramControl"/>.</summary>
     public HistogramControl()
     {
-        _formsPlot = new ScottPlot.WinForms.FormsPlot { Dock = DockStyle.Fill };
+        InitializeComponent();
+
         _formsPlot.UserInputProcessor.Disable();
         ApplyDarkStyle(_formsPlot.Plot);
-
-        _optionsPanel = new FlowLayoutPanel
-        {
-            Dock = DockStyle.Top,
-            Height = 26,
-            AutoSize = false,
-            WrapContents = false,
-            Padding = new Padding(3, 3, 3, 0),
-        };
-
-        _chkBlue  = MakeCheckBox("B", DrawingColor.DodgerBlue,     isChecked: true);
-        _chkGreen = MakeCheckBox("G", DrawingColor.LimeGreen,     isChecked: true);
-        _chkRed   = MakeCheckBox("R", DrawingColor.OrangeRed,     isChecked: true);
-        _chkAlpha = MakeCheckBox("A", DrawingColor.Silver,        isChecked: true);
-
-        _channelSeparator = new WinFormsLabel
-        {
-            Text = "│",
-            Width = 10,
-            TextAlign = ContentAlignment.MiddleCenter,
-            ForeColor = SystemColors.ControlDark,
-            Margin = new Padding(2, 2, 2, 0),
-        };
-
-        _chkExcludeBlack = MakeCheckBox("Excl 0",   SystemColors.ControlText, isChecked: false);
-        _chkExcludeWhite = MakeCheckBox("Excl 255", SystemColors.ControlText, isChecked: false);
-        _chkLogScale     = MakeCheckBox("Log",      SystemColors.ControlText, isChecked: false);
-
-        _optionsPanel.Controls.AddRange([
-            _chkBlue, _chkGreen, _chkRed, _chkAlpha,
-            _channelSeparator,
-            _chkExcludeBlack, _chkExcludeWhite, _chkLogScale,
-        ]);
-
-        // Fill control added first; Top-docked panel added second so it claims the top.
-        Controls.Add(_formsPlot);
-        Controls.Add(_optionsPanel);
 
         CheckBox[] allCheckBoxes = [_chkBlue, _chkGreen, _chkRed, _chkAlpha,
                                     _chkExcludeBlack, _chkExcludeWhite, _chkLogScale];
