@@ -27,6 +27,25 @@ public static class ExtensionMethods
     public static void Show(this Mat mat)
         => Show(mat, "Image");
 
+    /// <summary>
+    /// Opens a modal dialog displaying the <see cref="OpenCvSharp.Mat"/> image alongside
+    /// its per-channel histogram.
+    /// </summary>
+    /// <param name="mat">The image to display.</param>
+    /// <param name="title">The dialog title.</param>
+    public static void ShowWithHistogram(this Mat mat, string title)
+    {
+        MatHistogramViewer.ShowImage(title, mat);
+    }
+
+    /// <summary>
+    /// Opens a modal dialog displaying the <see cref="OpenCvSharp.Mat"/> image alongside
+    /// its per-channel histogram.
+    /// </summary>
+    /// <param name="mat">The image to display.</param>
+    public static void ShowWithHistogram(this Mat mat)
+        => mat.ShowWithHistogram("Image");
+
 
     /// <summary>
     /// Displays an <see cref="OpenCvSharp.Mat"/> image on the <see cref="BitmapDisplayPanel"/>.

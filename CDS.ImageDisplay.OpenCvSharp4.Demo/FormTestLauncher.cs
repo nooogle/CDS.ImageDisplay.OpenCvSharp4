@@ -29,6 +29,12 @@ internal sealed partial class FormTestLauncher : Form
             parent: this,
             createForm: () => new FormShowMatSimpleDemo());
 
+        demos.AddItem(
+            name: "Show(Mat) histogram",
+            tooltip: "Demonstration of the Mat.ShowWithHistogram extension across supported formats and stride/layout paths",
+            parent: this,
+            createForm: () => new FormShowMatHistogramDemo());
+
         menuTree.ExpandAllGroups();
     }
 }
