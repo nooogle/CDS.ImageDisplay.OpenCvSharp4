@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace CDS.ImageDisplay.OpenCvSharp4.Demo;
 
-internal sealed class JSONSettingsManager<T> where T : new()
+internal sealed class JsonSettingsManager<T> where T : new()
 {
     private static readonly JsonSerializerOptions s_jsonSerializerOptions = CreateJsonSerializerOptions();
 
@@ -16,9 +16,9 @@ internal sealed class JSONSettingsManager<T> where T : new()
 
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="JSONSettingsManager{T}"/> class.
+    /// Initialises a new instance of the <see cref="JsonSettingsManager{T}"/> class.
     /// </summary>
-    public JSONSettingsManager()
+    public JsonSettingsManager()
     {
         // Obtain the path for the per-user Application Data folder.
         string userAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -61,7 +61,7 @@ internal sealed class JSONSettingsManager<T> where T : new()
             return new T();
         }
 
-        string json = File.ReadAllText(filePath) ?? string.Empty;
+        string json = File.ReadAllText(filePath);
         T settings = JsonSerializer.Deserialize<T>(json, s_jsonSerializerOptions) ?? new T();
         return settings;
     }

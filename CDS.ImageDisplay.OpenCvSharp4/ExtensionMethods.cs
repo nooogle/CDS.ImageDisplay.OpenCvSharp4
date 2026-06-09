@@ -4,12 +4,28 @@ using CDS.ImageDisplay.OpenCvSharp4;
 
 namespace OpenCvSharp;
 
+/// <summary>
+/// Extension methods for displaying <see cref="Mat"/> images and setting them on a
+/// <see cref="CDS.ImageDisplay.BitmapDisplay.BitmapDisplayPanel"/>.
+/// </summary>
 public static class ExtensionMethods
 {
-    public static void Show(this Mat mat, string title = "Image")
+    /// <summary>
+    /// Opens a modal dialog displaying the <see cref="OpenCvSharp.Mat"/> image.
+    /// </summary>
+    /// <param name="mat">The image to display.</param>
+    /// <param name="title">The dialog title.</param>
+    public static void Show(this Mat mat, string title)
     {
-        ImageViewer.ShowImage(title, mat);
+        SimpleImageViewer.ShowImage(title, mat);
     }
+
+    /// <summary>
+    /// Opens a modal dialog displaying the <see cref="OpenCvSharp.Mat"/> image.
+    /// </summary>
+    /// <param name="mat">The image to display.</param>
+    public static void Show(this Mat mat)
+        => Show(mat, "Image");
 
 
     /// <summary>

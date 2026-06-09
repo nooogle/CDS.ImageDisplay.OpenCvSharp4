@@ -11,11 +11,6 @@ internal sealed partial class FormTestLauncher : Form
         InitializeComponent();
     }
 
-    protected override void OnFormClosing(FormClosingEventArgs e)
-    {
-        base.OnFormClosing(e);
-    }
-
     private void FormTestLauncher_Load(object sender, EventArgs e) => AddDemos();
 
     private void AddDemos()
@@ -29,10 +24,10 @@ internal sealed partial class FormTestLauncher : Form
             createForm: () => new FormSetImageDemo());
 
         demos.AddItem(
-            name: "Show(Mat)",
+            name: "Show(Mat) simple",
             tooltip: "Demonstration of the Mat.Show extension across supported formats and stride/layout paths",
             parent: this,
-            createForm: () => new FormShowMatDemo());
+            createForm: () => new FormShowMatSimpleDemo());
 
         menuTree.ExpandAllGroups();
     }

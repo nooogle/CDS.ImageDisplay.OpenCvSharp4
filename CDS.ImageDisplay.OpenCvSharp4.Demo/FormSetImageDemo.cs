@@ -7,9 +7,9 @@ namespace CDS.ImageDisplay.OpenCvSharp4.Demo;
 
 internal sealed partial class FormSetImageDemo : Form
 {
-    private bool _changingPaintRectProgramatically;
-    private OpenCvSharp.Mat? _cvImageGrey;
-    private OpenCvSharp.Mat? _cvImageBlurred;
+    private bool _changingPaintRectProgrammatically;
+    private Mat? _cvImageGrey;
+    private Mat? _cvImageBlurred;
 
     public FormSetImageDemo()
     {
@@ -27,39 +27,41 @@ internal sealed partial class FormSetImageDemo : Form
 
         bitmapPanel2.SetImage(cvImageColor);
 
-        _cvImageGrey = new OpenCvSharp.Mat(
+        _cvImageGrey = new Mat(
             rows: cvImageColor.Rows,
             cols: cvImageColor.Cols,
-            type: OpenCvSharp.MatType.CV_8UC1);
+            type: MatType.CV_8UC1);
 
-        OpenCvSharp.Cv2.CvtColor(
+        Cv2.CvtColor(
             src: cvImageColor,
             dst: _cvImageGrey,
-            code: OpenCvSharp.ColorConversionCodes.RGB2GRAY);
+            code: ColorConversionCodes.RGB2GRAY);
 
         bitmapPanel3.SetImage(_cvImageGrey);
 
-        _cvImageBlurred = new OpenCvSharp.Mat(
+        _cvImageBlurred = new Mat(
             rows: cvImageColor.Rows,
             cols: cvImageColor.Cols,
-            type: OpenCvSharp.MatType.CV_8UC1);
+            type: MatType.CV_8UC1);
 
         ProcessBlurring();
     }
 
     private void ProcessBlurring()
     {
-        if ((_cvImageBlurred == null) || (_cvImageGrey == null))
-        { return; }
+        if (_cvImageBlurred is null || _cvImageGrey is null)
+        {
+            return;
+        }
 
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
         int ksize = (trackBarGaussianSize.Value * 2) + 1;
 
-        OpenCvSharp.Cv2.GaussianBlur(
+        Cv2.GaussianBlur(
             src: _cvImageGrey,
             dst: _cvImageBlurred,
-            ksize: new OpenCvSharp.Size(ksize, ksize),
+            ksize: new Size(ksize, ksize),
             sigmaX: trackGaussianSigma.Value);
 
         stopwatch.Stop();
@@ -84,19 +86,33 @@ internal sealed partial class FormSetImageDemo : Form
 
     private void SyncPaintRects(BitmapDisplay.BitmapDisplayPanel sender)
     {
-        if (_changingPaintRectProgramatically)
-        { return; }
-        _changingPaintRectProgramatically = true;
+        if (_changingPaintRectProgrammatically)
+        {
+            return;
+        }
+
+        _changingPaintRectProgrammatically = true;
 
         if (sender != bitmapPanel1)
-        { bitmapPanel1.SyncPaintRectFromOther(sender); }
-        if (sender != bitmapPanel2)
-        { bitmapPanel2.SyncPaintRectFromOther(sender); }
-        if (sender != bitmapPanel3)
-        { bitmapPanel3.SyncPaintRectFromOther(sender); }
-        if (sender != bitmapPanel4)
-        { bitmapPanel4.SyncPaintRectFromOther(sender); }
+        {
+            bitmapPanel1.SyncPaintRectFromOther(sender);
+        }
 
-        _changingPaintRectProgramatically = false;
+        if (sender != bitmapPanel2)
+        {
+            bitmapPanel2.SyncPaintRectFromOther(sender);
+        }
+
+        if (sender != bitmapPanel3)
+        {
+            bitmapPanel3.SyncPaintRectFromOther(sender);
+        }
+
+        if (sender != bitmapPanel4)
+        {
+            bitmapPanel4.SyncPaintRectFromOther(sender);
+        }
+
+        _changingPaintRectProgrammatically = false;
     }
 }

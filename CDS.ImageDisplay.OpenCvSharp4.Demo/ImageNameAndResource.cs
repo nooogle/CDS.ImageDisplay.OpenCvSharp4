@@ -3,8 +3,8 @@ using System.Drawing;
 namespace CDS.ImageDisplay.OpenCvSharp4.Demo;
 
 /// <summary>
-/// Encapsulates a resource image name and the actual resource - for use with a 
-/// combo box which will use the ToString override for the text content
+/// Encapsulates a resource image name and the actual resource - for use with a
+/// combo box which will use the ToString override for the text content.
 /// </summary>
 internal sealed class ImageNameAndResource
 {
