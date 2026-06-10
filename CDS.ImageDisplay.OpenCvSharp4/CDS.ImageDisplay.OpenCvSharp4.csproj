@@ -61,6 +61,14 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.5" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Update="MinVer" Version="7.0.0" />
   </ItemGroup>
