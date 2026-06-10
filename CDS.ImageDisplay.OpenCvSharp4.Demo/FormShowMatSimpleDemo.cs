@@ -344,8 +344,13 @@ internal sealed class FormShowMatSimpleDemo : Form
     /// <param name="height">The image height in pixels.</param>
     private static void ValidateDimensions(int width, int height)
     {
+#if NETFRAMEWORK
+        if (width <= 0) { throw new ArgumentOutOfRangeException(nameof(width)); }
+        if (height <= 0) { throw new ArgumentOutOfRangeException(nameof(height)); }
+#else
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(width);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(height);
+#endif
     }
 
     /// <summary>
@@ -355,7 +360,12 @@ internal sealed class FormShowMatSimpleDemo : Form
     /// <returns>The clamped byte value.</returns>
     private static byte ClampToByte(double value)
     {
-        return (byte)Math.Clamp(Math.Round(value), min: 0D, max: 255D);
+        var rounded = Math.Round(value);
+#if NETFRAMEWORK
+        return (byte)(rounded < 0D ? 0D : rounded > 255D ? 255D : rounded);
+#else
+        return (byte)Math.Clamp(rounded, min: 0D, max: 255D);
+#endif
     }
 
     /// <summary>

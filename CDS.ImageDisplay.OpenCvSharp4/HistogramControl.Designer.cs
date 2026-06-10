@@ -1,3 +1,5 @@
+#nullable enable
+
 namespace CDS.ImageDisplay.OpenCvSharp4
 {
     partial class HistogramControl

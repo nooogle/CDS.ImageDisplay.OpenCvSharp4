@@ -22,7 +22,7 @@ namespace CDS.ImageDisplay.OpenCvSharp4
 
             // _histogramControl — fixed-height panel docked to the top
             _histogramControl.Dock = DockStyle.Top;
-            _histogramControl.Height = 200;
+            _histogramControl.Height = 256;
             _histogramControl.Name = "_histogramControl";
             _histogramControl.TabIndex = 0;
 

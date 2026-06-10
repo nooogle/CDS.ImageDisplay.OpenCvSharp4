@@ -2,6 +2,8 @@ using OpenCvSharp;
 using ScottPlot;
 using DrawingColor = System.Drawing.Color;
 
+#nullable enable
+
 namespace CDS.ImageDisplay.OpenCvSharp4;
 
 /// <summary>
@@ -137,6 +139,9 @@ public sealed partial class HistogramControl : UserControl
         return counts;
     }
 
+    private static readonly double[] s_xs    = Enumerable.Range(0, 256).Select(i => (double)i).ToArray();
+    private static readonly double[] s_yZeros = new double[256];
+
     private void Render()
     {
         var plot = _formsPlot.Plot;
@@ -151,66 +156,89 @@ public sealed partial class HistogramControl : UserControl
         {
             if (_channels == 1)
             {
-                // Greyscale: single light-grey series
-                PlotChannel(plot, _histData[0], excludeBlack, excludeWhite, logScale,
-                    ScottPlot.Color.FromHex("#c8c8c8").WithAlpha(0.85));
+                var grey    = ScottPlot.Color.FromHex("#c8c8c8");
+                var yValues = ComputeYValues(_histData[0], excludeBlack, excludeWhite, logScale);
+                PlotChannelFill(plot, yValues, grey.WithAlpha(0.85));
+                PlotChannelLine(plot, yValues, grey.WithAlpha(1.0));
             }
             else
             {
-                // Multi-channel: overlapping semi-transparent series, B → G → R → A
-                // so colour channels sit above the alpha layer.
-                if (_chkBlue.Checked)
-                    PlotChannel(plot, _histData[0], excludeBlack, excludeWhite, logScale,
-                        ScottPlot.Color.FromHex("#4080ff").WithAlpha(0.55));
-                if (_chkGreen.Checked)
-                    PlotChannel(plot, _histData[1], excludeBlack, excludeWhite, logScale,
-                        ScottPlot.Color.FromHex("#40d040").WithAlpha(0.55));
-                if (_chkRed.Checked)
-                    PlotChannel(plot, _histData[2], excludeBlack, excludeWhite, logScale,
-                        ScottPlot.Color.FromHex("#ff5050").WithAlpha(0.55));
-                if (_channels == 4 && _chkAlpha.Checked)
-                    PlotChannel(plot, _histData[3], excludeBlack, excludeWhite, logScale,
-                        ScottPlot.Color.FromHex("#c0c0c0").WithAlpha(0.35));
+                // Two-pass render: all fills first so no fill buries another channel's line.
+                var channels = BuildVisibleChannels(excludeBlack, excludeWhite, logScale);
+
+                foreach (var (yv, fill, _) in channels)
+                    PlotChannelFill(plot, yv, fill);
+
+                foreach (var (yv, _, line) in channels)
+                    PlotChannelLine(plot, yv, line);
             }
         }
 
         double yMax = ComputeYMax(excludeBlack, excludeWhite, logScale);
         plot.Axes.SetLimits(-0.5, 255.5, 0, yMax * 1.05);
-        plot.Axes.Left.Label.Text = logScale ? "log₁₀(count+1)" : "Count";
+        plot.Axes.Left.Label.Text   = logScale ? "log₁₀(count+1)" : "Count";
         plot.Axes.Bottom.Label.Text = "Value";
 
         _formsPlot.Refresh();
     }
 
-    private static void PlotChannel(
-        ScottPlot.Plot plot,
-        int[] counts,
-        bool excludeBlack,
-        bool excludeWhite,
-        bool logScale,
-        ScottPlot.Color color)
+    private List<(double[] yValues, ScottPlot.Color fillColor, ScottPlot.Color lineColor)> BuildVisibleChannels(
+        bool excludeBlack, bool excludeWhite, bool logScale)
     {
-        var bars = new ScottPlot.Bar[256];
-        for (int i = 0; i < 256; i++)
-        {
-            double value = 0;
-            if (!((excludeBlack && i == 0) || (excludeWhite && i == 255)))
-            {
-                value = logScale ? Math.Log10(counts[i] + 1) : counts[i];
-            }
+        var list = new List<(double[], ScottPlot.Color, ScottPlot.Color)>(4);
 
-            bars[i] = new ScottPlot.Bar
-            {
-                Position  = i,
-                Value     = value,
-                FillColor = color,
-                LineWidth = 0,
-                Size      = 1.0,
-            };
-            bars[i].FillStyle.AntiAlias = false;
+        if (_chkBlue.Checked)
+        {
+            var c = ScottPlot.Color.FromHex("#4080ff");
+            list.Add((ComputeYValues(_histData![0], excludeBlack, excludeWhite, logScale),
+                      c.WithAlpha(0.15), c.WithAlpha(0.85)));
+        }
+        if (_chkGreen.Checked)
+        {
+            var c = ScottPlot.Color.FromHex("#40d040");
+            list.Add((ComputeYValues(_histData![1], excludeBlack, excludeWhite, logScale),
+                      c.WithAlpha(0.15), c.WithAlpha(0.85)));
+        }
+        if (_chkRed.Checked)
+        {
+            var c = ScottPlot.Color.FromHex("#ff5050");
+            list.Add((ComputeYValues(_histData![2], excludeBlack, excludeWhite, logScale),
+                      c.WithAlpha(0.15), c.WithAlpha(0.85)));
+        }
+        if (_channels == 4 && _chkAlpha.Checked)
+        {
+            var c = ScottPlot.Color.FromHex("#c0c0c0");
+            list.Add((ComputeYValues(_histData![3], excludeBlack, excludeWhite, logScale),
+                      c.WithAlpha(0.15), c.WithAlpha(0.85)));
         }
 
-        plot.Add.Bars(bars);
+        return list;
+    }
+
+    private static double[] ComputeYValues(int[] counts, bool excludeBlack, bool excludeWhite, bool logScale)
+    {
+        var yValues = new double[256];
+        for (int i = 0; i < 256; i++)
+        {
+            if (!((excludeBlack && i == 0) || (excludeWhite && i == 255)))
+                yValues[i] = logScale ? Math.Log10(counts[i] + 1) : counts[i];
+        }
+        return yValues;
+    }
+
+    private static void PlotChannelFill(ScottPlot.Plot plot, double[] yValues, ScottPlot.Color fillColor)
+    {
+        var fill = plot.Add.FillY(s_xs, s_yZeros, yValues);
+        fill.FillColor = fillColor;
+        fill.LineColor = Colors.Transparent;
+    }
+
+    private static void PlotChannelLine(ScottPlot.Plot plot, double[] yValues, ScottPlot.Color lineColor)
+    {
+        var scatter = plot.Add.Scatter(s_xs, yValues);
+        scatter.Color      = lineColor;
+        scatter.LineWidth  = 1.5f;
+        scatter.MarkerSize = 0;
     }
 
     private double ComputeYMax(bool excludeBlack, bool excludeWhite, bool logScale)
