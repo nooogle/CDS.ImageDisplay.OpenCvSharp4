@@ -4,7 +4,7 @@ namespace CDS.ImageDisplay.OpenCvSharp4;
 
 /// <summary>
 /// A modal dialog that displays an <see cref="OpenCvSharp.Mat"/> image on a
-/// <see cref="CDS.ImageDisplay.BitmapDisplay.BitmapDisplayPanel"/>.
+/// <see cref="CDS.ImageDisplay.WinForms.BitmapDisplay.BitmapDisplayPanel"/>.
 /// </summary>
 public partial class SimpleImageViewer : Form
 {

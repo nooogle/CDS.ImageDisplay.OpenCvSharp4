@@ -37,6 +37,19 @@
     <Compile Update="FormShowMatHistogramDemo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="FormShowMatHistogramDemo.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FormShowMatHistogramDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="FormShowMatSimpleDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormShowMatSimpleDemo.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FormShowMatSimpleDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -45,6 +58,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="FormShowMatHistogramDemo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormShowMatHistogramDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FormShowMatSimpleDemo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormShowMatSimpleDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -1,6 +1,7 @@
+using System.ComponentModel;
 using OpenCvSharp;
 using ScottPlot;
-using DrawingColor = System.Drawing.Color;
+using ScottPlot.WinForms;
 
 #nullable enable
 
@@ -20,35 +21,64 @@ public sealed partial class HistogramControl : UserControl
     // _histData[channelIndex][binIndex 0..255], or null when no image is loaded.
     private int[][]? _histData;
     private int _channels;
+    private FormsPlot? _formsPlot;
 
     /// <summary>Initialises a new <see cref="HistogramControl"/>.</summary>
     public HistogramControl()
     {
         InitializeComponent();
 
-        _formsPlot.UserInputProcessor.Disable();
-        ApplyDarkStyle(_formsPlot.Plot);
+        CheckBox[] allCheckBoxes =
+        [
+            _chkBlue, _chkGreen, _chkRed, _chkAlpha,
+            _chkExcludeBlack, _chkExcludeWhite, _chkLogScale,
+        ];
 
-        CheckBox[] allCheckBoxes = [_chkBlue, _chkGreen, _chkRed, _chkAlpha,
-                                    _chkExcludeBlack, _chkExcludeWhite, _chkLogScale];
         foreach (var chk in allCheckBoxes)
         {
             chk.CheckedChanged += (_, _) => Render();
         }
 
-        UpdateChannelControls(channels: 0);
+        if (IsInDesignMode())
+        {
+            InitializeDesignTimePreview();
+        }
+        else
+        {
+            InitializeRuntimePlot();
+            UpdateChannelControls(channels: 0);
+        }
+
         Render();
     }
 
-    private static CheckBox MakeCheckBox(string text, DrawingColor foreColor, bool isChecked) => new()
+    private bool IsInDesignMode()
+        => LicenseManager.UsageMode == LicenseUsageMode.Designtime || Site?.DesignMode == true;
+
+    private void InitializeDesignTimePreview()
     {
-        Text = text,
-        ForeColor = foreColor,
-        Checked = isChecked,
-        AutoSize = true,
-        Margin = new Padding(2, 2, 6, 0),
-        FlatStyle = FlatStyle.Flat,
-    };
+        _designPlaceholderLabel.Visible = true;
+        UpdateChannelControls(channels: 3);
+    }
+
+    private void InitializeRuntimePlot()
+    {
+        _formsPlot = new FormsPlot
+        {
+            DisplayScale = 1F,
+            Dock = DockStyle.Fill,
+            Location = new System.Drawing.Point(0, 0),
+            Margin = new Padding(0),
+            Name = "_formsPlot",
+            TabIndex = 0,
+        };
+
+        _formsPlot.UserInputProcessor.Disable();
+        ApplyDarkStyle(_formsPlot.Plot);
+        _plotHost.Controls.Add(_formsPlot);
+        _plotHost.Controls.SetChildIndex(_formsPlot, 0);
+        _designPlaceholderLabel.Visible = false;
+    }
 
     private static void ApplyDarkStyle(ScottPlot.Plot plot)
     {
@@ -144,6 +174,11 @@ public sealed partial class HistogramControl : UserControl
 
     private void Render()
     {
+        if (_formsPlot == null)
+        {
+            return;
+        }
+
         var plot = _formsPlot.Plot;
         plot.Clear();
         ApplyDarkStyle(plot); // reapply after Clear() since it resets style state
@@ -167,10 +202,14 @@ public sealed partial class HistogramControl : UserControl
                 var channels = BuildVisibleChannels(excludeBlack, excludeWhite, logScale);
 
                 foreach (var (yv, fill, _) in channels)
+                {
                     PlotChannelFill(plot, yv, fill);
+                }
 
                 foreach (var (yv, _, line) in channels)
+                {
                     PlotChannelLine(plot, yv, line);
+                }
             }
         }
 

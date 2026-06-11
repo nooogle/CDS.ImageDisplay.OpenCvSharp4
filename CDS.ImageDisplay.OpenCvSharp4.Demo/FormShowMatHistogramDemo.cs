@@ -6,72 +6,15 @@ using DrawingSize = System.Drawing.Size;
 
 namespace CDS.ImageDisplay.OpenCvSharp4.Demo;
 
-internal sealed class FormShowMatHistogramDemo : Form
+internal sealed partial class FormShowMatHistogramDemo : Form
 {
-    private readonly TableLayoutPanel _demoTable;
-    private readonly Label _summaryLabel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="FormShowMatHistogramDemo"/> class.
     /// </summary>
     public FormShowMatHistogramDemo()
     {
-        _summaryLabel = new Label();
-        _demoTable = new TableLayoutPanel();
-
         InitializeComponent();
         AddDemoRows();
-    }
-
-    /// <summary>
-    /// Creates and configures the controls used by the form.
-    /// </summary>
-    private void InitializeComponent()
-    {
-        SuspendLayout();
-
-        var mainLayout = new TableLayoutPanel
-        {
-            ColumnCount = 1,
-            Dock = DockStyle.Fill,
-            Padding = new Padding(16),
-            RowCount = 2,
-        };
-
-        mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-        mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-        mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-
-        _summaryLabel.AutoSize = true;
-        _summaryLabel.Dock = DockStyle.Fill;
-        _summaryLabel.Margin = new Padding(0, 0, 0, 16);
-        _summaryLabel.MaximumSize = new DrawingSize(1024, 0);
-        _summaryLabel.Text = "Mat.Show(title) ultimately exercises BitmapDisplayPanel.SetImage(Mat). " +
-            "That pipeline has three paths for supported Mats: direct display for continuous 4-byte-aligned data, " +
-            "a temporary padded buffer for continuous unaligned data, and a clone for non-contiguous sub-mats. " +
-            "To cover every supported format/path combination, this form includes six demos: two CV_8UC1 demos, " +
-            "two CV_8UC3 demos, one CV_8UC4 demo, and one non-contiguous sub-mat demo.";
-
-        _demoTable.ColumnCount = 2;
-        _demoTable.Dock = DockStyle.Fill;
-        _demoTable.AutoSize = true;
-        _demoTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        _demoTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240F));
-        _demoTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-
-        mainLayout.Controls.Add(_summaryLabel, 0, 0);
-        mainLayout.Controls.Add(_demoTable, 0, 1);
-
-        AutoScaleDimensions = new SizeF(7F, 15F);
-        AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new DrawingSize(1120, 540);
-        Controls.Add(mainLayout);
-        MinimumSize = new DrawingSize(900, 420);
-        Name = nameof(FormShowMatHistogramDemo);
-        StartPosition = FormStartPosition.CenterParent;
-        Text = "Show(Mat) Demo";
-
-        ResumeLayout(false);
     }
 
     /// <summary>

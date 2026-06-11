@@ -75,7 +75,7 @@ internal sealed class JsonSettingsManager<T> where T : new()
             AllowTrailingCommas = true,
         };
 
-        jsonSerializerOptions.Converters.Add(new CDS.ImageDisplay.Utils.ColorJsonConverter());
+        jsonSerializerOptions.Converters.Add(new CDS.ImageDisplay.WinForms.Utils.ColorJsonConverter());
         jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 
         return jsonSerializerOptions;

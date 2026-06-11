@@ -82,9 +82,9 @@ internal sealed partial class FormSetImageDemo : Form
     }
 
 
-    private void BitmapPanel_PaintRectChanged(object sender, BitmapDisplay.PaintRectChangedEventArgs e) => SyncPaintRects(e.Sender);
+    private void BitmapPanel_PaintRectChanged(object sender, WinForms.BitmapDisplay.PaintRectChangedEventArgs e) => SyncPaintRects(e.Sender);
 
-    private void SyncPaintRects(BitmapDisplay.BitmapDisplayPanel sender)
+    private void SyncPaintRects(WinForms.BitmapDisplay.BitmapDisplayPanel sender)
     {
         if (_changingPaintRectProgrammatically)
         {

@@ -28,27 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            imageDisplay = new CDS.ImageDisplay.BitmapDisplay.BitmapDisplayPanel();
+            components = new System.ComponentModel.Container();
+            imageDisplay = new CDS.ImageDisplay.WinForms.BitmapDisplay.BitmapDisplayPanel();
+            formStatePersister1 = new CDS.ImageDisplay.WinForms.Utils.FormStatePersister(components);
             SuspendLayout();
             // 
-            // imageDisplaySource
+            // imageDisplay
             // 
             imageDisplay.BackgroundImage = Properties.Resources.my_tile2;
-            imageDisplay.DisplayMode = CDS.ImageDisplay.BitmapDisplay.BitmapDisplayMode.Free;
+            imageDisplay.DisplayMode = WinForms.BitmapDisplay.BitmapDisplayMode.Free;
             imageDisplay.Dock = DockStyle.Fill;
             imageDisplay.Location = new Point(0, 0);
-            imageDisplay.Margin = new Padding(2);
-            imageDisplay.Name = "imageDisplaySource";
-            imageDisplay.Size = new Size(800, 450);
+            imageDisplay.Name = "imageDisplay";
+            imageDisplay.Size = new Size(1143, 750);
             imageDisplay.TabIndex = 7;
             // 
-            // ImageViewer
+            // formStatePersister1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            formStatePersister1.Form = this;
+            // 
+            // SimpleImageViewer
+            // 
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1143, 750);
             Controls.Add(imageDisplay);
-            Name = "ImageViewer";
+            Margin = new Padding(4, 5, 4, 5);
+            Name = "SimpleImageViewer";
             Text = "ImageViewer";
             Load += ImageViewer_Load;
             ResumeLayout(false);
@@ -56,6 +62,7 @@
 
         #endregion
 
-        private CDS.ImageDisplay.BitmapDisplay.BitmapDisplayPanel imageDisplay;
+        private CDS.ImageDisplay.WinForms.BitmapDisplay.BitmapDisplayPanel imageDisplay;
+        private WinForms.Utils.FormStatePersister formStatePersister1;
     }
 }

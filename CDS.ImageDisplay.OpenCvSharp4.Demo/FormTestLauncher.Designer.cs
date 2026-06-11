@@ -29,35 +29,42 @@ namespace CDS.ImageDisplay.OpenCvSharp4.Demo
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             menuTree = new CDS.WinFormsMenus.Basic.MenuTree();
-            sysInfoPanel = new Utils.SystemInfoPanel();
+            sysInfoPanel = new CDS.ImageDisplay.WinForms.Utils.SystemInfoPanel();
+            formStatePersister1 = new CDS.ImageDisplay.WinForms.Utils.FormStatePersister(components);
             SuspendLayout();
-            //
+            // 
             // menuTree
-            //
+            // 
             menuTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            menuTree.Location = new System.Drawing.Point(0, 38);
-            menuTree.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            menuTree.Location = new System.Drawing.Point(0, 63);
+            menuTree.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             menuTree.Name = "menuTree";
-            menuTree.Size = new System.Drawing.Size(509, 361);
+            menuTree.Size = new System.Drawing.Size(727, 602);
             menuTree.TabIndex = 0;
-            //
+            // 
             // sysInfoPanel
-            //
+            // 
             sysInfoPanel.Dock = System.Windows.Forms.DockStyle.Top;
             sysInfoPanel.Location = new System.Drawing.Point(0, 0);
+            sysInfoPanel.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             sysInfoPanel.Name = "sysInfoPanel";
-            sysInfoPanel.Size = new System.Drawing.Size(509, 38);
+            sysInfoPanel.Size = new System.Drawing.Size(727, 63);
             sysInfoPanel.TabIndex = 8;
-            //
+            // 
+            // formStatePersister1
+            // 
+            formStatePersister1.Form = this;
+            // 
             // FormTestLauncher
-            //
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(509, 399);
+            ClientSize = new System.Drawing.Size(727, 665);
             Controls.Add(menuTree);
             Controls.Add(sysInfoPanel);
-            Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "FormTestLauncher";
             Text = "FormTestLauncher";
             Load += FormTestLauncher_Load;
@@ -67,6 +74,7 @@ namespace CDS.ImageDisplay.OpenCvSharp4.Demo
         #endregion
 
         private CDS.WinFormsMenus.Basic.MenuTree menuTree;
-        private Utils.SystemInfoPanel sysInfoPanel;
+        private WinForms.Utils.SystemInfoPanel sysInfoPanel;
+        private WinForms.Utils.FormStatePersister formStatePersister1;
     }
 }

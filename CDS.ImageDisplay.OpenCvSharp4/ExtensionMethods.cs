@@ -1,12 +1,12 @@
 using System.Runtime.InteropServices;
-using CDS.ImageDisplay.BitmapDisplay;
+using CDS.ImageDisplay.WinForms.BitmapDisplay;
 using CDS.ImageDisplay.OpenCvSharp4;
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// Extension methods for displaying <see cref="Mat"/> images and setting them on a
-/// <see cref="CDS.ImageDisplay.BitmapDisplay.BitmapDisplayPanel"/>.
+/// <see cref="CDS.ImageDisplay.WinForms.BitmapDisplay.BitmapDisplayPanel"/>.
 /// </summary>
 public static class ExtensionMethods
 {
