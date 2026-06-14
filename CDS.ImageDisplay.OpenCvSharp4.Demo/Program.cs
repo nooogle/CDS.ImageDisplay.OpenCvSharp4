@@ -11,9 +11,7 @@ internal static class Program
     [STAThread]
     private static void Main()
     {
-#if !NETFRAMEWORK
         Application.SetHighDpiMode(HighDpiMode.SystemAware);
-#endif
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
 

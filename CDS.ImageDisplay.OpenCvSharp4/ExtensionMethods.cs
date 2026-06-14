@@ -73,7 +73,7 @@ public static class ExtensionMethods
     /// </exception>
     public static void SetImage(this BitmapDisplayPanel bitmapDisplay, OpenCvSharp.Mat mat)
     {
-        if(bitmapDisplay is null) { throw new ArgumentNullException(nameof(bitmapDisplay)); }
+        ArgumentNullException.ThrowIfNull(bitmapDisplay);
 
         if (!mat.IsContinuous())
         {

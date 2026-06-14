@@ -2,21 +2,16 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net10.0-windows10.0.19041.0;net48</TargetFrameworks>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU</Platforms>
     <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
     <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-    <PackageReference Include="System.Resources.Extensions" Version="10.0.9" />
-  </ItemGroup>
-	
-	<ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Remove="FormSimpleFitToWindow.resx" />
   </ItemGroup>
 
@@ -26,7 +21,7 @@
     <PackageReference Include="OpenCvSharp4" Version="4.13.0.20260602" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.13.0.20260602" />
     <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.13.0.20260602" />
-    <PackageReference Include="OpenCvSharp4.runtime.win-arm64" Version="4.13.0.20260602" Condition="'$(TargetFramework)' != 'net48'" />
+    <PackageReference Include="OpenCvSharp4.runtime.win-arm64" Version="4.13.0.20260602" />
   </ItemGroup>
 
   <ItemGroup>
