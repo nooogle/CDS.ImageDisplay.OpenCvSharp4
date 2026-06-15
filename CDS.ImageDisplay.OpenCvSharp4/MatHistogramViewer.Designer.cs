@@ -28,6 +28,7 @@ namespace CDS.ImageDisplay.OpenCvSharp4
             // 
             // _imageDisplay
             // 
+            _imageDisplay.BackgroundImage = Properties.Resources.my_tile2;
             _imageDisplay.DisplayMode = WinForms.BitmapDisplay.BitmapDisplayMode.Free;
             _imageDisplay.Dock = DockStyle.Fill;
             _imageDisplay.Location = new Point(0, 0);

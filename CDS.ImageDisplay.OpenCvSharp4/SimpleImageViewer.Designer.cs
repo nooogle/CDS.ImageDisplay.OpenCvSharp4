@@ -35,12 +35,13 @@
             // 
             // imageDisplay
             // 
-            imageDisplay.BackgroundImage = CheckerboardTile.Create();
+            imageDisplay.BackgroundImage = Properties.Resources.my_tile2;
             imageDisplay.DisplayMode = WinForms.BitmapDisplay.BitmapDisplayMode.Free;
             imageDisplay.Dock = DockStyle.Fill;
             imageDisplay.Location = new Point(0, 0);
+            imageDisplay.Margin = new Padding(2, 2, 2, 2);
             imageDisplay.Name = "imageDisplay";
-            imageDisplay.Size = new Size(1143, 750);
+            imageDisplay.Size = new Size(800, 450);
             imageDisplay.TabIndex = 7;
             // 
             // formStatePersister1
@@ -49,11 +50,10 @@
             // 
             // SimpleImageViewer
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1143, 750);
+            ClientSize = new Size(800, 450);
             Controls.Add(imageDisplay);
-            Margin = new Padding(4, 5, 4, 5);
             Name = "SimpleImageViewer";
             Text = "ImageViewer";
             Load += ImageViewer_Load;

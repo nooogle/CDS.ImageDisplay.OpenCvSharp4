@@ -1,70 +1,79 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net10.0-windows10.0.19041.0;net48</TargetFrameworks>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net10.0-windows10.0.19041.0;net48</TargetFrameworks>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <PackageId>CDS.ImageDisplay.OpenCvSharp4</PackageId>
-    <Title>CDS Image Display for OpenCvSharp4</Title>
-    <Description>Windows Forms integration for displaying OpenCvSharp4 Mat images on a BitmapDisplayPanel. Handles stride alignment and pixel format conversion (CV_8UC1, CV_8UC3, CV_8UC4) transparently. Provides Mat.Show() for quick modal display and BitmapDisplayPanel.SetImage(Mat) for in-form display.</Description>
-    <PackageTags>opencv;opencvsharp;opencvsharp4;winforms;image;display;bitmap;mat</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-  </PropertyGroup>
+	<PropertyGroup>
+		<PackageId>CDS.ImageDisplay.OpenCvSharp4</PackageId>
+		<Title>CDS Image Display for OpenCvSharp4</Title>
+		<Description>Windows Forms integration for displaying OpenCvSharp4 Mat images on a BitmapDisplayPanel. Handles stride alignment and pixel format conversion (CV_8UC1, CV_8UC3, CV_8UC4) transparently. Provides Mat.Show() for quick modal display and BitmapDisplayPanel.SetImage(Mat) for in-form display.</Description>
+		<PackageTags>opencv;opencvsharp;opencvsharp4;winforms;image;display;bitmap;mat</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CDS.ImageDisplay.WinForms" Version="3.3.2" />
-    <PackageReference Include="LiveChartsCore.SkiaSharpView.WinForms" Version="2.0.4" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="OpenCvSharp4" Version="4.13.0.20260602" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CDS.ImageDisplay.WinForms" Version="3.3.2" />
+		<PackageReference Include="LiveChartsCore.SkiaSharpView.WinForms" Version="2.0.4" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="OpenCvSharp4" Version="4.13.0.20260602" />
+	</ItemGroup>
 
-  <ItemGroup>
 
-    <Compile Update="HistogramControlLC.Designer.cs">
-      <DependentUpon>HistogramControlLC.cs</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+		<PackageReference Include="System.Resources.Extensions" Version="10.0.9" />
+	</ItemGroup>
 
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<PropertyGroup>
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
 
-    <EmbeddedResource Update="HistogramControlLC.resx">
-      <DependentUpon>HistogramControlLC.cs</DependentUpon>
-    </EmbeddedResource>
+		<Compile Update="HistogramControlLC.Designer.cs">
+			<DependentUpon>HistogramControlLC.cs</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
 
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="MinVer" Version="7.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+
+		<EmbeddedResource Update="HistogramControlLC.resx">
+			<DependentUpon>HistogramControlLC.cs</DependentUpon>
+		</EmbeddedResource>
+
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Update="MinVer" Version="7.0.0" />
+	</ItemGroup>
 
 </Project>
