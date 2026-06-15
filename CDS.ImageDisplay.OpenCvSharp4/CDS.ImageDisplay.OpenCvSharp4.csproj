@@ -47,8 +47,8 @@
 
 	<ItemGroup>
 
-		<Compile Update="HistogramControlLC.Designer.cs">
-			<DependentUpon>HistogramControlLC.cs</DependentUpon>
+		<Compile Update="HistogramControl.Designer.cs">
+			<DependentUpon>HistogramControl.cs</DependentUpon>
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 		</Compile>
@@ -62,8 +62,8 @@
 
 	<ItemGroup>
 
-		<EmbeddedResource Update="HistogramControlLC.resx">
-			<DependentUpon>HistogramControlLC.cs</DependentUpon>
+		<EmbeddedResource Update="HistogramControl.resx">
+			<DependentUpon>HistogramControl.cs</DependentUpon>
 		</EmbeddedResource>
 
 		<EmbeddedResource Update="Properties\Resources.resx">

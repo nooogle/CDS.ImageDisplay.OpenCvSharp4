@@ -6,12 +6,12 @@ namespace CDS.ImageDisplay.OpenCvSharp4;
 /// A modal dialog that displays an <see cref="OpenCvSharp.Mat"/> image on a
 /// <see cref="CDS.ImageDisplay.WinForms.BitmapDisplay.BitmapDisplayPanel"/>.
 /// </summary>
-public partial class SimpleImageViewer : Form
+public partial class MatViewerSimple : Form
 {
     /// <summary>
-    /// Initialises a new instance of <see cref="SimpleImageViewer"/>.
+    /// Initialises a new instance of <see cref="MatViewerSimple"/>.
     /// </summary>
-    public SimpleImageViewer()
+    public MatViewerSimple()
     {
         InitializeComponent();
     }
@@ -21,7 +21,7 @@ public partial class SimpleImageViewer : Form
         imageDisplay.FitToWindowCentred();
     }
 
-
+    /// <inheritdoc/>
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
@@ -39,21 +39,21 @@ public partial class SimpleImageViewer : Form
 
 
     /// <summary>
-    /// Creates and shows a modal <see cref="SimpleImageViewer"/> dialog.
+    /// Creates and shows a modal <see cref="MatViewerSimple"/> dialog.
     /// </summary>
     /// <param name="owner">The owner window, or <see langword="null"/> for no owner.</param>
     /// <param name="title">The dialog title.</param>
     /// <param name="mat">The image to display.</param>
     public static void ShowImage(IWin32Window? owner, string title, Mat mat)
     {
-        var viewer = new SimpleImageViewer();
+        var viewer = new MatViewerSimple();
         viewer.Text = title;
         viewer.imageDisplay.SetImage(mat);
         viewer.ShowDialog(owner);
     }
 
     /// <summary>
-    /// Creates and shows a modal <see cref="SimpleImageViewer"/> dialog with no owner window.
+    /// Creates and shows a modal <see cref="MatViewerSimple"/> dialog with no owner window.
     /// </summary>
     /// <param name="title">The dialog title.</param>
     /// <param name="mat">The image to display.</param>

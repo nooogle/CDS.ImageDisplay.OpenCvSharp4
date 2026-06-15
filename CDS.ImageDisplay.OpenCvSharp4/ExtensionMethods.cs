@@ -17,7 +17,7 @@ public static class ExtensionMethods
     /// <param name="title">The dialog title.</param>
     public static void Show(this Mat mat, string title)
     {
-        SimpleImageViewer.ShowImage(title, mat);
+        MatViewerSimple.ShowImage(title, mat);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public static class ExtensionMethods
     /// <param name="title">The dialog title.</param>
     public static void ShowWithHistogram(this Mat mat, string title)
     {
-        MatHistogramViewer.ShowImage(title, mat);
+        MatViewerDetailed.ShowImage(title, mat);
     }
 
     /// <summary>

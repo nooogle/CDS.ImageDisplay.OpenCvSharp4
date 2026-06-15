@@ -1,6 +1,6 @@
 ﻿namespace CDS.ImageDisplay.OpenCvSharp4
 {
-    partial class SimpleImageViewer
+    partial class MatViewerSimple
     {
         /// <summary>
         /// Required designer variable.

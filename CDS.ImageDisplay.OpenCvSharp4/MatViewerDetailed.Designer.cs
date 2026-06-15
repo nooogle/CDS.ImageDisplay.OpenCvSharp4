@@ -1,6 +1,6 @@
 namespace CDS.ImageDisplay.OpenCvSharp4
 {
-    partial class MatHistogramViewer
+    partial class MatViewerDetailed
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -19,11 +19,15 @@ namespace CDS.ImageDisplay.OpenCvSharp4
             components = new System.ComponentModel.Container();
             _imageDisplay = new CDS.ImageDisplay.WinForms.BitmapDisplay.BitmapDisplayPanel();
             _splitContainer = new SplitContainer();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            panelInfo = new Panel();
             formStatePersister1 = new CDS.ImageDisplay.WinForms.Utils.FormStatePersister(components);
             roiManager = new CDS.ImageDisplay.WinForms.RegionOfInterest.SingleROIManager(components);
             ((System.ComponentModel.ISupportInitialize)_splitContainer).BeginInit();
+            _splitContainer.Panel1.SuspendLayout();
             _splitContainer.Panel2.SuspendLayout();
             _splitContainer.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // _imageDisplay
@@ -45,6 +49,10 @@ namespace CDS.ImageDisplay.OpenCvSharp4
             _splitContainer.Name = "_splitContainer";
             _splitContainer.Orientation = Orientation.Horizontal;
             // 
+            // _splitContainer.Panel1
+            // 
+            _splitContainer.Panel1.Controls.Add(tableLayoutPanel1);
+            // 
             // _splitContainer.Panel2
             // 
             _splitContainer.Panel2.Controls.Add(_imageDisplay);
@@ -53,6 +61,28 @@ namespace CDS.ImageDisplay.OpenCvSharp4
             _splitContainer.SplitterDistance = 231;
             _splitContainer.SplitterWidth = 2;
             _splitContainer.TabIndex = 0;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 272F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(panelInfo, 0, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(900, 231);
+            tableLayoutPanel1.TabIndex = 0;
+            // 
+            // panelInfo
+            // 
+            panelInfo.Dock = DockStyle.Fill;
+            panelInfo.Location = new Point(3, 3);
+            panelInfo.Name = "panelInfo";
+            panelInfo.Size = new Size(266, 225);
+            panelInfo.TabIndex = 0;
             // 
             // formStatePersister1
             // 
@@ -105,19 +135,21 @@ namespace CDS.ImageDisplay.OpenCvSharp4
             roiManager.LiveDraggingROIShape.Visible = true;
             roiManager.CommittedROIChanged += roiManager_CommittedROIChanged;
             // 
-            // MatHistogramViewer
+            // MatViewerDetailed
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(900, 700);
             Controls.Add(_splitContainer);
             MinimumSize = new Size(398, 343);
-            Name = "MatHistogramViewer";
+            Name = "MatViewerDetailed";
             Text = "MatHistogramViewer";
             Load += MatHistogramViewer_Load;
+            _splitContainer.Panel1.ResumeLayout(false);
             _splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)_splitContainer).EndInit();
             _splitContainer.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -125,5 +157,7 @@ namespace CDS.ImageDisplay.OpenCvSharp4
         private System.Windows.Forms.SplitContainer _splitContainer;
         private WinForms.Utils.FormStatePersister formStatePersister1;
         private WinForms.RegionOfInterest.SingleROIManager roiManager;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Panel panelInfo;
     }
 }

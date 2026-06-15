@@ -20,7 +20,7 @@ namespace CDS.ImageDisplay.OpenCvSharp4;
 /// <c>CV_8UC4</c> (BGRA). Passing an unsupported type leaves the existing display
 /// unchanged. Passing <see langword="null"/> clears the display.
 /// </remarks>
-public sealed partial class HistogramControlLC : UserControl
+public sealed partial class HistogramControl : UserControl
 {
     // _histData[channelIndex][binIndex 0..255], or null when no image is loaded.
     private int[][]? _histData;
@@ -34,8 +34,8 @@ public sealed partial class HistogramControlLC : UserControl
     private static readonly SKColor s_axisColor = new(0xb0, 0xb0, 0xb0);
     private static readonly SKColor s_gridColor = new(0x3a, 0x3a, 0x3a);
 
-    /// <summary>Initialises a new <see cref="HistogramControlLC"/>.</summary>
-    public HistogramControlLC()
+    /// <summary>Initialises a new <see cref="HistogramControl"/>.</summary>
+    public HistogramControl()
     {
         InitializeComponent();
 
@@ -112,7 +112,19 @@ public sealed partial class HistogramControlLC : UserControl
         get => _roi;
         set
         {
-            _roi = value;
+            if(_mat == null)
+            {
+                _roi = Rectangle.Empty;
+            }
+            else if((value.Width <= 0) || (value.Height <= 0) || value.Width >= _mat.Width || value.Height >= _mat.Height)
+            {
+                _roi = System.Drawing.Rectangle.Empty;
+            }
+            else
+            {
+                _roi = value;
+            }
+
             RecalculateHistogramsCore();
             Render();
         }
