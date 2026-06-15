@@ -66,7 +66,7 @@ public sealed partial class HistogramControlLC : UserControl
 
     private void InitializeDesignTimePreview()
     {
-        _designPlaceholderLabel.Visible = true;
+        InitializeRuntimePlot();
         UpdateChannelControls(channels: 3);
     }
 
@@ -93,7 +93,6 @@ public sealed partial class HistogramControlLC : UserControl
 
         _plotHost.Controls.Add(_chart);
         _plotHost.Controls.SetChildIndex(_chart, 0);
-        _designPlaceholderLabel.Visible = false;
     }
 
     /// <summary>
@@ -272,10 +271,20 @@ public sealed partial class HistogramControlLC : UserControl
     }
 
     private static ISeries MakeFillSeries(double[] yValues, SKColor fillColor)
-        => new LineSeries<double>
+    {
+        // Create a gradient that fades from transparent at the top to opaque at the bottom
+        var gradientColors = new SKColor[]
+        {
+            fillColor.WithAlpha(0),      // Fully transparent at top
+            fillColor.WithAlpha(0x80),   // Semi-transparent in middle
+            fillColor,                   // Full opacity at bottom
+        };
+        var gradientColorPos = new float[] { 0f, 0.5f, 1f };
+
+        return new LineSeries<double>
         {
             Values          = yValues,
-            Fill            = new SolidColorPaint(fillColor),
+            Fill            = new LinearGradientPaint(gradientColors, new SKPoint(0, 0), new SKPoint(0, 1), gradientColorPos),
             Stroke          = null,
             GeometrySize    = 0,
             GeometryFill    = null,
@@ -283,8 +292,10 @@ public sealed partial class HistogramControlLC : UserControl
             LineSmoothness  = 0,
             AnimationsSpeed = TimeSpan.Zero,
             EasingFunction  = null,
+            Name            = null,
             IsVisibleAtLegend = false,
         };
+    }
 
     private static ISeries MakeLineSeries(double[] yValues, SKColor lineColor, string name)
         => new LineSeries<double>

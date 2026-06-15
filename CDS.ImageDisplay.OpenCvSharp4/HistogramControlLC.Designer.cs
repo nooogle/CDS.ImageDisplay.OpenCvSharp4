@@ -1,26 +1,25 @@
 #nullable enable
 
-namespace CDS.ImageDisplay.OpenCvSharp4
+namespace CDS.ImageDisplay.OpenCvSharp4;
+
+partial class HistogramControlLC
 {
-    partial class HistogramControlLC
-    {
-        private System.ComponentModel.IContainer? components = null;
-        private FlowLayoutPanel _optionsPanel;
-        private Panel _plotHost;
-        private Label _designPlaceholderLabel;
-        private CheckBox _chkBlue;
-        private CheckBox _chkGreen;
-        private CheckBox _chkRed;
-        private CheckBox _chkAlpha;
-        private Label _channelSeparator;
-        private CheckBox _chkExcludeBlack;
-        private CheckBox _chkExcludeWhite;
-        private CheckBox _chkLogScale;
+    private System.ComponentModel.IContainer? components = null;
+    private FlowLayoutPanel _optionsPanel;
+    private Panel _plotHost;
+    private CheckBox _chkBlue;
+    private CheckBox _chkGreen;
+    private CheckBox _chkRed;
+    private CheckBox _chkAlpha;
+    private Label _channelSeparator;
+    private CheckBox _chkExcludeBlack;
+    private CheckBox _chkExcludeWhite;
+    private CheckBox _chkLogScale;
 
         /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && components != null)
             {
                 components.Dispose();
             }
@@ -43,7 +42,6 @@ namespace CDS.ImageDisplay.OpenCvSharp4
             _chkExcludeWhite = new CheckBox();
             _chkLogScale = new CheckBox();
             _plotHost = new Panel();
-            _designPlaceholderLabel = new Label();
             _optionsPanel.SuspendLayout();
             _plotHost.SuspendLayout();
             SuspendLayout();
@@ -169,44 +167,30 @@ namespace CDS.ImageDisplay.OpenCvSharp4
             _chkLogScale.TabIndex = 7;
             _chkLogScale.Text = "Log";
             _chkLogScale.UseVisualStyleBackColor = true;
-            //
-            // _plotHost
-            //
-            _plotHost.BackColor = System.Drawing.Color.FromArgb(26, 26, 26);
-            _plotHost.Controls.Add(_designPlaceholderLabel);
-            _plotHost.Dock = DockStyle.Fill;
-            _plotHost.Location = new Point(0, 26);
-            _plotHost.Margin = new Padding(0);
-            _plotHost.Name = "_plotHost";
-            _plotHost.Size = new Size(500, 174);
-            _plotHost.TabIndex = 0;
-            //
-            // _designPlaceholderLabel
-            //
-            _designPlaceholderLabel.Dock = DockStyle.Fill;
-            _designPlaceholderLabel.ForeColor = System.Drawing.Color.Gainsboro;
-            _designPlaceholderLabel.Location = new Point(0, 0);
-            _designPlaceholderLabel.Name = "_designPlaceholderLabel";
-            _designPlaceholderLabel.Size = new Size(500, 174);
-            _designPlaceholderLabel.TabIndex = 0;
-            _designPlaceholderLabel.Text = "Histogram preview is unavailable in the designer.\r\nRun the app to view the LiveCharts histogram.";
-            _designPlaceholderLabel.TextAlign = ContentAlignment.MiddleCenter;
-            _designPlaceholderLabel.Visible = false;
-            //
-            // HistogramControlLC
-            //
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(_plotHost);
-            Controls.Add(_optionsPanel);
-            Name = "HistogramControlLC";
-            Size = new Size(500, 200);
-            _optionsPanel.ResumeLayout(false);
-            _optionsPanel.PerformLayout();
-            _plotHost.ResumeLayout(false);
-            ResumeLayout(false);
-        }
+                    //
+                    // _plotHost
+                    //
+                    _plotHost.BackColor = System.Drawing.Color.FromArgb(26, 26, 26);
+                    _plotHost.Dock = DockStyle.Fill;
+                    _plotHost.Location = new Point(0, 26);
+                    _plotHost.Margin = new Padding(0);
+                    _plotHost.Name = "_plotHost";
+                    _plotHost.Size = new Size(500, 174);
+                    _plotHost.TabIndex = 0;
+                    //
+                    // HistogramControlLC
+                    //
+                    AutoScaleDimensions = new SizeF(7F, 15F);
+                    AutoScaleMode = AutoScaleMode.Font;
+                    Controls.Add(_plotHost);
+                    Controls.Add(_optionsPanel);
+                    Name = "HistogramControlLC";
+                    Size = new Size(500, 200);
+                    _optionsPanel.ResumeLayout(false);
+                    _optionsPanel.PerformLayout();
+                    _plotHost.ResumeLayout(false);
+                    ResumeLayout(false);
+                }
 
-        #endregion
-    }
-}
+                #endregion
+            }
