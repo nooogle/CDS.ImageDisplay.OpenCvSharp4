@@ -59,6 +59,5 @@ namespace CDS.ImageDisplay.OpenCvSharp4.Properties {
                 resourceCulture = value;
             }
         }
-        
     }
 }

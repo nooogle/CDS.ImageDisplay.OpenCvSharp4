@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows10.0.19041.0;net48</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -27,22 +27,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CDS.ImageDisplay.WinForms" Version="3.2.10" />
+    <PackageReference Include="CDS.ImageDisplay.WinForms" Version="3.3.2" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WinForms" Version="2.0.4" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="OpenCvSharp4" Version="4.13.0.20260602" />
-    <PackageReference Include="ScottPlot.WinForms" Version="5.1.*" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="HistogramControl.Designer.cs">
-      <DependentUpon>HistogramControl.cs</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
 
     <Compile Update="HistogramControlLC.Designer.cs">
       <DependentUpon>HistogramControlLC.cs</DependentUpon>
@@ -58,9 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="HistogramControl.resx">
-      <DependentUpon>HistogramControl.cs</DependentUpon>
-    </EmbeddedResource>
 
     <EmbeddedResource Update="HistogramControlLC.resx">
       <DependentUpon>HistogramControlLC.cs</DependentUpon>

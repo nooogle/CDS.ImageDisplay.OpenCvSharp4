@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+	  <TargetFrameworks>net10.0-windows10.0.19041.0;net48</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU</Platforms>
@@ -21,10 +21,9 @@
     <PackageReference Include="OpenCvSharp4" Version="4.13.0.20260602" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.13.0.20260602" />
     <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.13.0.20260602" />
-    <PackageReference Include="OpenCvSharp4.runtime.win-arm64" Version="4.13.0.20260602" />
   </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
     <ProjectReference Include="..\CDS.ImageDisplay.OpenCvSharp4\CDS.ImageDisplay.OpenCvSharp4.csproj" />
   </ItemGroup>
 
