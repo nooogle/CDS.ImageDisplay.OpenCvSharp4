@@ -8,14 +8,14 @@ namespace CDS.ImageDisplay.OpenCvSharp4;
 /// </summary>
 public partial class MatHistogramViewer : Form
 {
-    private HistogramControl _histogramControl;
+    private HistogramControlLC _histogramControl;
 
     /// <summary>Initialises a new instance of <see cref="MatHistogramViewer"/>.</summary>
     public MatHistogramViewer()
     {
         InitializeComponent();
 
-        _histogramControl = new HistogramControl();
+        _histogramControl = new HistogramControlLC();
 
         _histogramControl.Dock = DockStyle.Fill;
         _histogramControl.Margin = new Padding(4, 5, 4, 5);

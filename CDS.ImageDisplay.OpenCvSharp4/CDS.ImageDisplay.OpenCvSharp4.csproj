@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <PackageReference Include="CDS.ImageDisplay.WinForms" Version="3.2.10" />
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WinForms" Version="2.0.4" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -43,6 +44,12 @@
       <AutoGen>True</AutoGen>
     </Compile>
 
+    <Compile Update="HistogramControlLC.Designer.cs">
+      <DependentUpon>HistogramControlLC.cs</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -53,6 +60,10 @@
   <ItemGroup>
     <EmbeddedResource Update="HistogramControl.resx">
       <DependentUpon>HistogramControl.cs</DependentUpon>
+    </EmbeddedResource>
+
+    <EmbeddedResource Update="HistogramControlLC.resx">
+      <DependentUpon>HistogramControlLC.cs</DependentUpon>
     </EmbeddedResource>
 
     <EmbeddedResource Update="Properties\Resources.resx">
