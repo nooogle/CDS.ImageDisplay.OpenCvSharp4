@@ -82,6 +82,7 @@ public sealed partial class HistogramControlLC : UserControl
             Name = "_chart",
             BackColor = System.Drawing.Color.FromArgb(s_bg.Red, s_bg.Green, s_bg.Blue),
             LegendPosition = LegendPosition.Hidden,
+            TooltipPosition = TooltipPosition.Hidden,
             ZoomMode = ZoomAndPanMode.None,
             AnimationsSpeed = TimeSpan.Zero,
             EasingFunction = null,
@@ -275,15 +276,13 @@ public sealed partial class HistogramControlLC : UserControl
             [
                 MakeFillSeries(yv, grey.WithAlpha(0x22)),
                 MakeLineSeries(yv, grey.WithAlpha(0xd9)),
-                MakeLegendMarker(grey, "Grey"),
             ];
         }
 
-        // Three-pass: fills, then lines, then legend markers.
-        // Fills first so they don't bury lines; markers last (no data, legend only).
-        var fills   = new List<ISeries>(4);
-        var lines   = new List<ISeries>(4);
-        var markers = new List<ISeries>(4);
+        // Two-pass: fills, then lines.
+        // Fills first so they don't bury lines.
+        var fills = new List<ISeries>(4);
+        var lines = new List<ISeries>(4);
 
         if (_chkBlue.Checked)
         {
@@ -291,7 +290,6 @@ public sealed partial class HistogramControlLC : UserControl
             var yv = ComputeYValues(_histData[0], excludeBlack, excludeWhite, logScale);
             fills.Add(MakeFillSeries(yv, c.WithAlpha(0x26)));
             lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9)));
-            markers.Add(MakeLegendMarker(c, "Blue"));
         }
         if (_chkGreen.Checked)
         {
@@ -299,7 +297,6 @@ public sealed partial class HistogramControlLC : UserControl
             var yv = ComputeYValues(_histData[1], excludeBlack, excludeWhite, logScale);
             fills.Add(MakeFillSeries(yv, c.WithAlpha(0x26)));
             lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9)));
-            markers.Add(MakeLegendMarker(c, "Green"));
         }
         if (_chkRed.Checked)
         {
@@ -307,7 +304,6 @@ public sealed partial class HistogramControlLC : UserControl
             var yv = ComputeYValues(_histData[2], excludeBlack, excludeWhite, logScale);
             fills.Add(MakeFillSeries(yv, c.WithAlpha(0x26)));
             lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9)));
-            markers.Add(MakeLegendMarker(c, "Red"));
         }
         if (_channels == 4 && _chkAlpha.Checked)
         {
@@ -315,10 +311,9 @@ public sealed partial class HistogramControlLC : UserControl
             var yv = ComputeYValues(_histData[3], excludeBlack, excludeWhite, logScale);
             fills.Add(MakeFillSeries(yv, c.WithAlpha(0x26)));
             lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9)));
-            markers.Add(MakeLegendMarker(c, "Alpha"));
         }
 
-        return [.. fills, .. lines, .. markers];
+        return [.. fills, .. lines];
     }
 
     private static ISeries MakeFillSeries(double[] yValues, SKColor fillColor)
@@ -344,6 +339,7 @@ public sealed partial class HistogramControlLC : UserControl
             AnimationsSpeed = TimeSpan.Zero,
             EasingFunction  = null,
             Name            = null,
+            IsHoverable     = false,
             IsVisibleAtLegend = false,
         };
     }
@@ -361,19 +357,8 @@ public sealed partial class HistogramControlLC : UserControl
             AnimationsSpeed   = TimeSpan.Zero,
             EasingFunction    = null,
             Name              = null,
+            IsHoverable       = false,
             IsVisibleAtLegend = false,
-        };
-
-    private static ISeries MakeLegendMarker(SKColor color, string name)
-        => new ScatterSeries<double>
-        {
-            Values          = Array.Empty<double>(),
-            Fill            = new SolidColorPaint(color),
-            Stroke          = null,
-            GeometrySize    = 10,
-            Name            = name,
-            AnimationsSpeed = TimeSpan.Zero,
-            EasingFunction  = null,
         };
 
     private static double[] ComputeYValues(int[] counts, bool excludeBlack, bool excludeWhite, bool logScale)
