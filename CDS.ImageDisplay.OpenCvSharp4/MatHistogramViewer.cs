@@ -65,4 +65,9 @@ public partial class MatHistogramViewer : Form
     /// <param name="mat">The image to display.</param>
     public static void ShowImage(string title, Mat mat)
         => ShowImage(owner: null, title, mat);
+
+    private void roiManager_CommittedROIChanged(object sender, CDS.ImageDisplay.WinForms.RegionOfInterest.CommittedROIChangedEventArgs e)
+    {
+        _histogramControl.ROI = e.ROI;
+    }
 }

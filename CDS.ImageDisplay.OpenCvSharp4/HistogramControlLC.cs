@@ -26,6 +26,8 @@ public sealed partial class HistogramControlLC : UserControl
     private int[][]? _histData;
     private int _channels;
     private CartesianChart? _chart;
+    private Mat? _mat;
+    private System.Drawing.Rectangle _roi;
 
     private static readonly SKColor s_bg        = new(0x1a, 0x1a, 0x1a);
     private static readonly SKColor s_plotBg    = new(0x25, 0x25, 0x25);
@@ -79,7 +81,6 @@ public sealed partial class HistogramControlLC : UserControl
             Margin = new Padding(0),
             Name = "_chart",
             BackColor = System.Drawing.Color.FromArgb(s_bg.Red, s_bg.Green, s_bg.Blue),
-            Tooltip = null,
             LegendPosition = LegendPosition.Hidden,
             ZoomMode = ZoomAndPanMode.None,
             AnimationsSpeed = TimeSpan.Zero,
@@ -96,6 +97,27 @@ public sealed partial class HistogramControlLC : UserControl
     }
 
     /// <summary>
+    /// Gets or sets the region of the image used for histogram calculation.
+    /// Set to <see cref="System.Drawing.Rectangle.Empty"/> to revert to the whole image.
+    /// </summary>
+    /// <remarks>
+    /// Setting this property triggers an immediate histogram recalculation and display
+    /// update. <see cref="SetImage"/> resets this to the full image bounds.
+    /// </remarks>
+    [System.ComponentModel.Browsable(false)]
+    [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+    public System.Drawing.Rectangle ROI
+    {
+        get => _roi;
+        set
+        {
+            _roi = value;
+            RecalculateHistogramsCore();
+            Render();
+        }
+    }
+
+    /// <summary>
     /// Computes and displays the histogram for <paramref name="mat"/>.
     /// </summary>
     /// <param name="mat">
@@ -103,10 +125,14 @@ public sealed partial class HistogramControlLC : UserControl
     /// Unsupported types are silently ignored (the current display is unchanged).
     /// Pass <see langword="null"/> to clear the display.
     /// </param>
+    /// <remarks>Resets <see cref="ROI"/> to the full image bounds.</remarks>
     public void SetImage(Mat? mat)
     {
+        _mat = mat;
+
         if (mat == null || mat.Empty())
         {
+            _roi = System.Drawing.Rectangle.Empty;
             _histData = null;
             _channels = 0;
             UpdateChannelControls(0);
@@ -114,29 +140,48 @@ public sealed partial class HistogramControlLC : UserControl
             return;
         }
 
-        var type = mat.Type();
+        _roi = new System.Drawing.Rectangle(0, 0, mat.Width, mat.Height);
+        RecalculateHistogramsCore();
+        Render();
+    }
+
+    private void RecalculateHistogramsCore()
+    {
+        if (_mat == null || _mat.Empty()) { return; }
+
+        var roi = _roi.IsEmpty
+            ? new System.Drawing.Rectangle(0, 0, _mat.Width, _mat.Height)
+            : _roi;
+
+        roi.Intersect(new System.Drawing.Rectangle(0, 0, _mat.Width, _mat.Height));
+        if (roi.IsEmpty) { return; }
+
+        var roiRect = new OpenCvSharp.Rect(roi.X, roi.Y, roi.Width, roi.Height);
+        using var regionMat = _mat.SubMat(roiRect);
+
+        var type = regionMat.Type();
         if (type == MatType.CV_8UC1)
         {
             _channels = 1;
-            _histData = [ComputeChannelHistogram(mat, 0)];
+            _histData = [ComputeChannelHistogram(regionMat, 0)];
         }
         else if (type == MatType.CV_8UC3)
         {
             _channels = 3;
             _histData = [
-                ComputeChannelHistogram(mat, 0), // B
-                ComputeChannelHistogram(mat, 1), // G
-                ComputeChannelHistogram(mat, 2), // R
+                ComputeChannelHistogram(regionMat, 0), // B
+                ComputeChannelHistogram(regionMat, 1), // G
+                ComputeChannelHistogram(regionMat, 2), // R
             ];
         }
         else if (type == MatType.CV_8UC4)
         {
             _channels = 4;
             _histData = [
-                ComputeChannelHistogram(mat, 0), // B
-                ComputeChannelHistogram(mat, 1), // G
-                ComputeChannelHistogram(mat, 2), // R
-                ComputeChannelHistogram(mat, 3), // A
+                ComputeChannelHistogram(regionMat, 0), // B
+                ComputeChannelHistogram(regionMat, 1), // G
+                ComputeChannelHistogram(regionMat, 2), // R
+                ComputeChannelHistogram(regionMat, 3), // A
             ];
         }
         else
@@ -145,7 +190,6 @@ public sealed partial class HistogramControlLC : UserControl
         }
 
         UpdateChannelControls(_channels);
-        Render();
     }
 
     private void UpdateChannelControls(int channels)
@@ -230,44 +274,51 @@ public sealed partial class HistogramControlLC : UserControl
             return
             [
                 MakeFillSeries(yv, grey.WithAlpha(0x22)),
-                MakeLineSeries(yv, grey.WithAlpha(0xd9), "Grey"),
+                MakeLineSeries(yv, grey.WithAlpha(0xd9)),
+                MakeLegendMarker(grey, "Grey"),
             ];
         }
 
-        // Two-pass: all fills first, then all lines — ensures no fill buries another channel's line.
-        var fills = new List<ISeries>(4);
-        var lines = new List<ISeries>(4);
+        // Three-pass: fills, then lines, then legend markers.
+        // Fills first so they don't bury lines; markers last (no data, legend only).
+        var fills   = new List<ISeries>(4);
+        var lines   = new List<ISeries>(4);
+        var markers = new List<ISeries>(4);
 
         if (_chkBlue.Checked)
         {
             var c  = new SKColor(0x40, 0x80, 0xff);
             var yv = ComputeYValues(_histData[0], excludeBlack, excludeWhite, logScale);
             fills.Add(MakeFillSeries(yv, c.WithAlpha(0x26)));
-            lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9), "Blue"));
+            lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9)));
+            markers.Add(MakeLegendMarker(c, "Blue"));
         }
         if (_chkGreen.Checked)
         {
             var c  = new SKColor(0x40, 0xd0, 0x40);
             var yv = ComputeYValues(_histData[1], excludeBlack, excludeWhite, logScale);
             fills.Add(MakeFillSeries(yv, c.WithAlpha(0x26)));
-            lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9), "Green"));
+            lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9)));
+            markers.Add(MakeLegendMarker(c, "Green"));
         }
         if (_chkRed.Checked)
         {
             var c  = new SKColor(0xff, 0x50, 0x50);
             var yv = ComputeYValues(_histData[2], excludeBlack, excludeWhite, logScale);
             fills.Add(MakeFillSeries(yv, c.WithAlpha(0x26)));
-            lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9), "Red"));
+            lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9)));
+            markers.Add(MakeLegendMarker(c, "Red"));
         }
         if (_channels == 4 && _chkAlpha.Checked)
         {
             var c  = new SKColor(0xc0, 0xc0, 0xc0);
             var yv = ComputeYValues(_histData[3], excludeBlack, excludeWhite, logScale);
             fills.Add(MakeFillSeries(yv, c.WithAlpha(0x26)));
-            lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9), "Alpha"));
+            lines.Add(MakeLineSeries(yv, c.WithAlpha(0xd9)));
+            markers.Add(MakeLegendMarker(c, "Alpha"));
         }
 
-        return [.. fills, .. lines];
+        return [.. fills, .. lines, .. markers];
     }
 
     private static ISeries MakeFillSeries(double[] yValues, SKColor fillColor)
@@ -297,19 +348,32 @@ public sealed partial class HistogramControlLC : UserControl
         };
     }
 
-    private static ISeries MakeLineSeries(double[] yValues, SKColor lineColor, string name)
+    private static ISeries MakeLineSeries(double[] yValues, SKColor lineColor)
         => new LineSeries<double>
         {
-            Values          = yValues,
-            Fill            = null,
-            Stroke          = new SolidColorPaint(lineColor, 1.5f),
-            GeometrySize    = 0,
-            GeometryFill    = null,
-            GeometryStroke  = null,
-            LineSmoothness  = 0,
+            Values            = yValues,
+            Fill              = null,
+            Stroke            = new SolidColorPaint(lineColor, 1.5f),
+            GeometrySize      = 0,
+            GeometryFill      = null,
+            GeometryStroke    = null,
+            LineSmoothness    = 0,
+            AnimationsSpeed   = TimeSpan.Zero,
+            EasingFunction    = null,
+            Name              = null,
+            IsVisibleAtLegend = false,
+        };
+
+    private static ISeries MakeLegendMarker(SKColor color, string name)
+        => new ScatterSeries<double>
+        {
+            Values          = Array.Empty<double>(),
+            Fill            = new SolidColorPaint(color),
+            Stroke          = null,
+            GeometrySize    = 10,
+            Name            = name,
             AnimationsSpeed = TimeSpan.Zero,
             EasingFunction  = null,
-            Name            = name,
         };
 
     private static double[] ComputeYValues(int[] counts, bool excludeBlack, bool excludeWhite, bool logScale)
