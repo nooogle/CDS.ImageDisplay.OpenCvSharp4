@@ -27,6 +27,7 @@ public partial class MatViewerDetailed : Form
     public MatViewerDetailed()
     {
         InitializeComponent();
+        _imageDisplay.BackgroundImage = CheckerboardTile.Shared;
 
         _histogramControl = new HistogramControl();
         _histogramControl.Dock = DockStyle.Fill;

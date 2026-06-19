@@ -35,7 +35,6 @@
             // 
             // imageDisplay
             // 
-            imageDisplay.BackgroundImage = Properties.Resources.my_tile2;
             imageDisplay.DisplayMode = WinForms.BitmapDisplay.BitmapDisplayMode.Free;
             imageDisplay.Dock = DockStyle.Fill;
             imageDisplay.Location = new Point(0, 0);

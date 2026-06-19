@@ -14,6 +14,7 @@ public partial class MatViewerSimple : Form
     public MatViewerSimple()
     {
         InitializeComponent();
+        imageDisplay.BackgroundImage = CheckerboardTile.Shared;
     }
 
     private void ImageViewer_Load(object sender, EventArgs e)

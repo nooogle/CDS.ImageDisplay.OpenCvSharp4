@@ -1,34 +1,27 @@
-//namespace CDS.ImageDisplay.OpenCvSharp4;
+using System.Drawing;
 
-///// <summary>
-///// Generates the checkerboard background tile used by image viewer forms.
-///// </summary>
-//internal static class CheckerboardTile
-//{
-//    private static System.Drawing.Bitmap? _instance;
+namespace CDS.ImageDisplay.OpenCvSharp4;
 
-//    /// <summary>
-//    /// Returns a shared 8×8 checkerboard <see cref="System.Drawing.Bitmap"/> with
-//    /// alternating <see cref="System.Drawing.Color.LightGray"/> and
-//    /// <see cref="System.Drawing.Color.White"/> pixels.
-//    /// </summary>
-//    internal static System.Drawing.Bitmap Create()
-//    {
-//        if (_instance is not null) { return _instance; }
+internal static class CheckerboardTile
+{
+    private static readonly Lazy<Bitmap> s_shared = new(CreateTile);
 
-//        const int size = 32;
-//        var bmp = new System.Drawing.Bitmap(size, size);
-//        for (int y = 0; y < size; y++)
-//        {
-//            for (int x = 0; x < size; x++)
-//            {
-//                bmp.SetPixel(x, y, (x == y) || (x == size - y - 1)
-//                    ? System.Drawing.Color.FromArgb(16, 16, 16)
-//                    : System.Drawing.Color.FromArgb(48, 48, 48));
-//            }
-//        }
+    internal static Bitmap Shared => s_shared.Value;
 
-//        _instance = bmp;
-//        return _instance;
-//    }
-//}
+    private static Bitmap CreateTile()
+    {
+        const int tileSize = 16;
+        const int cellSize = 8;
+
+        var bitmap = new Bitmap(tileSize, tileSize);
+        using var graphics = Graphics.FromImage(bitmap);
+        using var darkBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
+        using var lightBrush = new SolidBrush(Color.FromArgb(72, 72, 72));
+
+        graphics.FillRectangle(darkBrush, 0, 0, tileSize, tileSize);
+        graphics.FillRectangle(lightBrush, 0, 0, cellSize, cellSize);
+        graphics.FillRectangle(lightBrush, cellSize, cellSize, cellSize, cellSize);
+
+        return bitmap;
+    }
+}
