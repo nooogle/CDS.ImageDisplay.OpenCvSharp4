@@ -6,6 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
+		<Platforms>AnyCPU;x64;ARM64</Platforms>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -33,7 +34,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="OpenCvSharp4" Version="4.13.0.20260602" />
+		<PackageReference Include="OpenCvSharp4" Version="4.13.0.20260627" />
 	</ItemGroup>
 
 	<ItemGroup>
