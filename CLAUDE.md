@@ -69,7 +69,7 @@ git tag V1.2.0
 git push origin V1.2.0
 ```
 
-Pushing a `V*` tag triggers `.github/workflows/publish.yml`, which builds, packs, creates a GitHub Release, and pushes to NuGet.org.
+Pushing a `V*.*.*` tag triggers `.github/workflows/release.yml`, which builds, packs, creates a GitHub Release, and pushes to NuGet.org.
 
 Before the first release:
 1. Replace the `OWNER` placeholder in [Directory.Build.props](Directory.Build.props) with the actual GitHub username/org.
