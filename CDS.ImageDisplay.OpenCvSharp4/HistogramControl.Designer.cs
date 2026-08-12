@@ -31,7 +31,7 @@ partial class HistogramControl
         _chkExcludeBlack = new CheckBox();
         _chkExcludeWhite = new CheckBox();
         _chkLogScale = new CheckBox();
-        _plotHost = new Panel();
+        _plotHost = new HistogramPlotPanel();
         _optionsPanel.SuspendLayout();
         SuspendLayout();
         // 
@@ -191,7 +191,7 @@ partial class HistogramControl
 
 
     private FlowLayoutPanel _optionsPanel = null!;
-    private Panel _plotHost = null!;
+    private HistogramPlotPanel _plotHost = null!;
     private CheckBox _chkBlue = null!;
     private CheckBox _chkGreen = null!;
     private CheckBox _chkRed = null!;
