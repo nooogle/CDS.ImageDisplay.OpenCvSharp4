@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>net10.0-windows10.0.19041;net48</TargetFrameworks>
+		<TargetFrameworks>net10.0-windows;net48</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
 		<Nullable>enable</Nullable>
 		<Platforms>AnyCPU;x64;ARM64</Platforms>
@@ -28,7 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-		<PackageReference Include="System.Resources.Extensions" Version="10.0.10" />
+		<PackageReference Include="System.Resources.Extensions" Version="10.0.11" />
 	</ItemGroup>
 
 	<PropertyGroup>

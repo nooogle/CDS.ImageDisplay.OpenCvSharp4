@@ -1,0 +1,26 @@
+﻿<Project Sdk="MSTest.Sdk/4.3.3">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AwesomeAssertions" Version="9.5.0" />
+		<PackageReference Include="OpenCvSharp4" Version="4.13.0.20260627" />
+		<PackageReference Include="OpenCvSharp4.runtime.win" Version="4.13.0.20260627" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\CDS.ImageDisplay.OpenCvSharp4\CDS.ImageDisplay.OpenCvSharp4.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="MinVer" Version="7.0.0" />
+	</ItemGroup>
+
+</Project>
