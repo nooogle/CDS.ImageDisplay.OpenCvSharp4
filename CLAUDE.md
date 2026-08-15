@@ -14,16 +14,24 @@ dotnet build CDS.ImageDisplay.OpenCvSharp4.slnx
 
 # Run the demo app
 dotnet run --project CDS.ImageDisplay.OpenCvSharp4.Demo
+
+# Run the tests (MSTest.Sdk / MTP — not `dotnet test`)
+dotnet run --project CDS.ImageDisplay.OpenCvSharp4.Tests --no-build --configuration Release -- --report-trx --results-directory TestResults
 ```
 
-No test project — correctness is validated through the Demo application. The demo forms cover all supported image types and stride-alignment edge cases.
+Unit tests (`CDS.ImageDisplay.OpenCvSharp4.Tests`, MSTest.Sdk/MTP) cover
+stride alignment, `MatImageSource`, and the histogram controls — wired into
+`ci.yml` as of 2026-08-15. The Demo application still validates end-to-end
+behaviour the tests don't reach: all supported image types and
+stride-alignment edge cases visually.
 
 ## Architecture
 
-Two projects:
+Three projects:
 
 - **CDS.ImageDisplay.OpenCvSharp4** — the library
 - **CDS.ImageDisplay.OpenCvSharp4.Demo** — WinForms demo exe
+- **CDS.ImageDisplay.OpenCvSharp4.Tests** — MSTest.Sdk/MTP unit tests
 
 ### Library internals
 
