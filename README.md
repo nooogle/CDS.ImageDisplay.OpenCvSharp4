@@ -1,7 +1,10 @@
 # CDS.ImageDisplay.OpenCvSharp4
 
-[![NuGet](https://img.shields.io/nuget/v/CDS.ImageDisplay.OpenCvSharp4.svg)](https://www.nuget.org/packages/CDS.ImageDisplay.OpenCvSharp4)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+[![CI](https://github.com/nooogle/CDS.ImageDisplay.OpenCvSharp4/actions/workflows/ci.yml/badge.svg)](https://github.com/nooogle/CDS.ImageDisplay.OpenCvSharp4/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/nooogle/CDS.ImageDisplay.OpenCvSharp4/actions/workflows/codeql.yml/badge.svg)](https://github.com/nooogle/CDS.ImageDisplay.OpenCvSharp4/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/nooogle/CDS.ImageDisplay.OpenCvSharp4/badge)](https://securityscorecards.dev/viewer/?uri=github.com/nooogle/CDS.ImageDisplay.OpenCvSharp4)
+[![NuGet](https://img.shields.io/nuget/v/CDS.ImageDisplay.OpenCvSharp4)](https://www.nuget.org/packages/CDS.ImageDisplay.OpenCvSharp4)
+[![License](https://img.shields.io/github/license/nooogle/CDS.ImageDisplay.OpenCvSharp4)](LICENSE.txt)
 
 Windows Forms integration for displaying [OpenCvSharp4](https://github.com/shimat/opencvsharp) `Mat` images. Provides two simple entry points — a quick modal viewer and in-form panel display — with automatic stride alignment and pixel format conversion.
 

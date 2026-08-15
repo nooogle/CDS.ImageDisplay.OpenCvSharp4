@@ -33,6 +33,16 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release
 
+      - name: Test
+        run: dotnet run --project CDS.ImageDisplay.OpenCvSharp4.Tests/CDS.ImageDisplay.OpenCvSharp4.Tests.csproj --no-build --configuration Release -- --report-trx --results-directory TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: TestResults/*.trx
+
   dependency-review:
     name: Dependency Review
     if: github.event_name == 'pull_request'

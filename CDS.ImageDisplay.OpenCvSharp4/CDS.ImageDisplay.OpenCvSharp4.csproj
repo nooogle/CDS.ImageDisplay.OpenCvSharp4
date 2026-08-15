@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CDS.ImageDisplay.WinForms" Version="3.3.14" />
+		<PackageReference Include="CDS.ImageDisplay.WinForms" Version="3.3.15" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.400">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
