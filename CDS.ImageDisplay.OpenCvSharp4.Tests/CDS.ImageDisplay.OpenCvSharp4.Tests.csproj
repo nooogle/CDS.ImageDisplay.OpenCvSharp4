@@ -10,7 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AwesomeAssertions" Version="9.5.0" />
+		<PackageReference Include="AwesomeAssertions" Version="9.6.0" />
 		<PackageReference Include="OpenCvSharp4" Version="4.13.0.20260627" />
 		<PackageReference Include="OpenCvSharp4.runtime.win" Version="4.13.0.20260627" />
 	</ItemGroup>
