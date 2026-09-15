@@ -58,6 +58,7 @@
 
 	<ItemGroup>
 		<PackageReference Update="MinVer" Version="8.0.0" />
+		<PackageReference Include="System.Resources.Extensions" Version="10.0.12" />
 	</ItemGroup>
 
 	<ItemGroup>
