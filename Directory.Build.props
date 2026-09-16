@@ -1,5 +1,13 @@
 <Project>
 
+  <!-- NuGet audit: high/critical advisories break the build in CI only, so a
+       new advisory published mid-session never blocks local work. -->
+  <PropertyGroup>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <WarningsAsErrors Condition="'$(CI)' == 'true'">$(WarningsAsErrors);NU1903;NU1904</WarningsAsErrors>
+  </PropertyGroup>
+
   <PropertyGroup>
     <!-- MinVer: git tags must use uppercase V prefix, e.g. V1.0.0 -->
     <MinVerTagPrefix>V</MinVerTagPrefix>
